@@ -1,0 +1,9 @@
+Email Menu:=*MENUTITLE
+Leveraging Google App Engine Mail:=open http://blog.mattwoodward.com/leveraging-google-app-engine-mail-and-xmpp-se
+Google App Engine Tut Ex3: XMPP, Mail and Task Queues:=open http://googcloudlabs.appspot.com/codelabexercise3.html
+Send trouble-ticket emails:=open http://www.javapractices.com/topic/TopicAction.do?Id=179
+Fundamentals of Java Mail:=open http://java.sun.com/developer/onlineTraining/JavaMail/contents.html#JavaMailMessage
+JavaMail API:=open http://www.oracle.com/technetwork/java/faq-135477.html#readattach
+javax Servlet Context API Javadocs:=open http://docs.oracle.com/javaee/1.3/api/javax/servlet/ServletContext.html
+MailChimp HTML Emails:=open http://kb.mailchimp.com/article/how-to-code-html-emails
+

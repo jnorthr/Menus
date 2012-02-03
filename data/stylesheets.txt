@@ -1,0 +1,27 @@
+Java, Javascript, CSS Stylesheets, Beans, Menus & ProcessBuilder:=*MENUTITLE
+Foreground Text Color:=open http://www.java2s.com/Code/Java/Swing-JFC/Foregroundcolor.htm
+Style Contexts:=open http://download.oracle.com/javase/1.4.2/docs/api/javax/swing/text/StyleContext.html
+JTextPane Styles:=open http://www.java2s.com/Code/Java/Swing-JFC/JTextPaneStylesExample1.htm
+Java Doc Simple Attributes:=open http://www.java2s.com/Tutorial/Java/0240__Swing/SimpleAttributeBoldItalicColor.htm
+Style Constants:=open http://www.java2s.com/Tutorial/Java/0240__Swing/UsingStyleConstantsclasstosimplifystylesttributesettings.htm
+5 Common java Process Pitfalls:=open http://kylecartmell.com/?p=9
+JDK 7 ProcessBuilder:=open http://download.oracle.com/javase/7/docs/api/java/lang/ProcessBuilder.html
+Ant, Groovy & Databases:=open http://mauszeig.wordpress.com/2006/04/07/ant-groovy-and-the-database/
+Groovy,Grapes,Jetty:=open http://www.joergm.com/2009/12/scripting-magic-with-groovy-grape-and-jetty/
+Java Servlet URL Mapping:=open http://stackoverflow.com/questions/5202249/java-servlet-url-mapping
+Web Server Java: Servlets and JSP:=open http://oreilly.com/catalog/javacook/chapter/ch18.html
+Embedded Jetty:=open http://www.codeproject.com/KB/java/Embedding_Jetty.aspx
+Client WSDL using Groovy:=http://www.javaworld.com/javaworld/jw-11-2007/jw-11-webserviceclient.html?page=7
+Wiki EJB's:=open http://en.wikipedia.org/wiki/Enterprise_JavaBeans
+Java EE At A Glance:=open http://www.oracle.com/technetwork/java/javaee/overview/index.html
+Groovy Beans:=open http://groovy.codehaus.org/Groovy+Beans
+JSP Tutorial:=open http://courses.coreservlets.com/Course-Materials/csajsp2.html
+Java Process Example:=open /Volumes/Data/dev/java/ProcessTimeoutExample.java
+Column Support for Menus:=open /Volumes/Data/dev/groovy/Menus/ColumnSupport.groovy
+Menu Entry Trial groovy:=open /Volumes/Data/dev/groovy/Menus/MenuEntry.groovy
+Edit This Menu:=open /Volumes/Data/dev/groovy/Menus/data/stylesheets.txt
+Grep:=grep getMenuCommand /Volumes/Data/dev/groovy/Menus/*.groovy
+Beautiful CSS3 Buttons:=open http://designlovr.com/beautiful-photoshop-like-buttons-with-css3/
+CSS3 Gradient Buttons -Webdesigner Wall:=open http://webdesignerwall.com/tutorials/css3-gradient-buttons
+
+

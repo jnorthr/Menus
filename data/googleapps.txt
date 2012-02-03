@@ -1,0 +1,39 @@
+Google AppEngine:=*MENUTITLE
+Godaddy Managing DNS:=open http://community.godaddy.com/help/680?locale=en
+Godaddy:=open https://www.godaddy.com/default.aspx
+Godaddy Checking Your MX Record Settings:=open http://community.godaddy.com/help/article/5444
+MX Record Wiki:=open http://en.wikipedia.org/wiki/MX_record
+Create TXT in Google:=open http://www.google.com/support/a/bin/answer.py?answer=183895
+Verifying a domain alias:=open http://www.google.com/support/forum/p/Google+Apps/thread?tid=0452777198ed2124&hl=en
+About Google App Engine:=open http://www.google.com/support/a/bin/answer.py?hl=en&answer=91077&topic=22150
+Writing Google App Scripts:=open http://code.google.com/googleapps/appsscript/guide_writing_scripts.html
+Deploying your Application on your Google Apps URL:=open http://code.google.com/appengine/articles/domains.html
+Google Passwords:=open http://www.google.com/support/accounts/bin/answer.py?answer=27444&hl=en&ctx=ch_ServiceLoginAuth&p=ah
+To sign up for Google Apps:=open https://www.google.com/a/cpanel/standard/selectDomain?existingDomain=www.domail.info&newDomain=false&ownDomain=true
+Google Code Lab Example 3 - Version 2:=open http://domailinfo.appspot.com/#order
+Verify that you own domail.info:=open https://www.google.com/a/cpanel/domail.info/VerifyAdminAccountPasswordReset
+Google Apps Finding Security Tokens:=open http://www.google.com/support/forum/p/Google%20Apps/thread?tid=2f27a7fc581bd9c8&hl=en 
+Google Apps JDP+JPA Example:=open http://fredsa.allen-sauer.com/2009/04/1st-look-at-app-engine-using-jdo.html
+Google App Engine Forum:=open http://groups.google.com/group/google-appengine
+com.google.appengine.api.mail Interface MailService:=open http://code.google.com/appengine/docs/java/javadoc/com/google/appengine/api/mail/MailService.html
+Get Started with the GWT SDK:=open http://code.google.com/webtoolkit/gettingstarted.html
+Google Web Fonts - free:=open http://www.google.com/webfonts#ChoosePlace:select
+GAE Entities, Properties, and Keys:=open http://code.google.com/appengine/docs/java/datastore/entities.html#Kinds_IDs_and_Names
+Using Java in GAE (book):=open http://books.google.fr/books?id=zFtuXftEKz0C&pg=PA15&dq=com.google.appengine.api.datastore+key&hl=en&ei=We_gTvazA8rD8QOVveHQBA&sa=X&oi=book_result&ct=result&resnum=6&ved=0CE8Q6AEwBQ#v=onepage&q=com.google.appengine.api.datastore%20key&f=false
+Google Apps Overview:=open https://appengine.google.com/
+GitHub Sample of Simple GAE KVS:=open https://github.com/AlbertBertilsson/GAE-KVS/tree/master/application/war/WEB-INF
+Define Java Data classes 4 GAE using JDO:=open http://code.google.com/appengine/docs/java/datastore/jdo/dataclasses.html
+Google I/O Sandbox:=www.google.com/events/io/2010/sandbox.html
+Google I/O 2010:=open http://www.google.com/events/io/2010/sandbox.html
+Begin Java 4 Google App Engine:=open http://books.google.fr/books?id=zFtuXftEKz0C&pg=PA15&dq=com.google.appengine.api.datastore+key&hl=en&ei=We_gTvazA8rD8QOVveHQBA&sa=X&oi=book_result&ct=result&resnum=6&ved=0CE8Q6AEwBQ#v=onepage&q=com.google.appengine.api.datastore%20key&f=false
+Google AppEngine JDO:=open http://code.google.com/appengine/docs/java/datastore/jdo/dataclasses.html
+GAE KVS Tut:=open https://github.com/AlbertBertilsson/GAE-KVS/tree/master/application/war/WEB-INF
+Data Nucleus:=open http://www.datanucleus.org/products/accessplatform/enhancer.html
+Deployment Descriptor - web.xml:=http://code.google.com/appengine/docs/java/config/webxml.html
+google.appengine.api.datastore key:=http://books.google.fr/books?id=zFtuXftEKz0C&pg=PA15&dq=com.google.appengine.api.datastore+key&hl=en&ei=We_gTvazA8rD8QOVveHQBA&sa=X&oi=book_result&ct=result&resnum=6&ved=0CE8Q6AEwBQ#v=onepage&q=com.google.appengine.api.datastore%20key&f=false
+Datastore Property Types:=open http://code.google.com/appengine/docs/java/datastore/entities.html#Properties_and_Value_Types
+Google App Engine General Questions:=open http://code.google.com/appengine/kb/general.html#cron
+Google XMPP, Mail and Task Queues Lab3:=open http://googcloudlabs.appspot.com/codelabexercise3.html
+GAE Forums:=open http://code.google.com/appengine/community.html
+GWT Tut:=open http://code.google.com/webtoolkit/gettingstarted.html
+

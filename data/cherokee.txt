@@ -1,0 +1,4 @@
+Cherokee Links:=*MENUTITLE
+Cherokee Project:=www.cherokee-project.com/doc/config_info_sources.html
+Cherokee Config:=open http://www.cherokee-project.com/doc/config_info_sources.html
+Cherokee Glassfish Cookbook:=www.cherokee-project.com/doc/cookbook_glassfish.html

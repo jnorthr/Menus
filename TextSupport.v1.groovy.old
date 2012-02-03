@@ -1,0 +1,221 @@
+// allow hash char. #  using alt-3 on keyboard
+import java.awt.Color;
+import java.awt.*;
+import javax.swing.text.*;
+import javax.swing.*
+import groovy.swing.SwingBuilder
+
+public class TextSupport
+{
+    def jtp;
+    StyledDocument doc;
+    def at; // pointer to semi-colon in text stream
+    def foundsemi;    // boolean flag true if location of semi-colon within allowable range
+    def colorsignature = 0;
+    def printed = false;
+    def audit = false;
+    def as0 = new SimpleAttributeSet();
+    
+    // simple constructor
+    public TextSupport()
+    {
+        jtp = new JTextPane();                
+    } // end of constructor
+    
+
+    // ==========================================
+    // print audit trail ========================
+    def say(txt)
+    {
+        //if (audit) println "TS : $txt";
+    }
+
+
+    // ================================================================
+    // method to add text to pane with specific display attributes; copied from Support.groovy
+    private void appendText(String s, AttributeSet attributes) 
+    {
+        String sb = '\n'+s
+        doc = jtp.getDocument();
+        jtp.grabFocus();
+        try 
+        {
+            doc.insertString(doc.getLength(), sb, attributes);
+        }
+        catch (BadLocationException e) {}
+    } // end of appendText
+
+    
+    // ================================================================        
+    // method to add text to pane with no display attributes; copied from Support.groovy
+    private void appendText(String s) 
+    {
+        as0 = new SimpleAttributeSet();
+        appendText(s, as0);
+    } // end of appendText
+     
+            
+    // --------------------------------------------------------------
+    // produces full result of writing text in a hex color to the jtextpane document; 
+    private writeText(text)
+    {
+        appendText(text);
+     } // end of method
+
+
+    // ===============================================================================
+    // produces full result of writing text in a hex color to the jtextpane document
+    // color is integer version of something like 0xff00ff; style of declaration
+    private writeText(text, int number)
+    {
+        as0 = new SimpleAttributeSet();
+        def printed = false
+                    
+        try
+        {            
+            // create a Color object
+            def col = new Color(number)
+            StyleConstants.setForeground(as0, col); 
+            appendText(newtext, as0);
+            printed = true;
+        }
+        catch (Exception x)
+        {
+            println "... : could not convert color of <$number>"
+        } // end of catch
+                
+        
+        if (!printed)
+        {
+            appendText(text);
+        } // end of if
+
+    } // end of method
+
+
+// --------------------------------------------------------------
+// test my new class
+public static void main(String[] args)
+{
+    println "\n===================== Start ======================================="
+    // My new class
+    TextSupport ts = new TextSupport();
+    def test = "#c00088;This is a test of one text parm prefixed with color #c00088;This..."
+    ColorManager cm = new ColorManager(test);
+    int c = cm.getColorCode();
+    def t = cm.getText();
+    ts.writeText(t, c);
+    
+    test = "red;Display Max Menu";
+    ts.writeText(test);
+
+    ts.writeText("the first test of getColor($test) returned <$c>");
+    ts.writeText("the first test of getText($test) returned <$tx>");
+
+
+    test = "This is a test of one text parm without color prefix"
+    ts.writeText("the second test of getColor($test) returned <$c>");
+
+    test = "0xccfe;This is a test of one text parm color prefix";
+    cm = new ColorManager(test);
+    c = cm.getColorCode();
+    t = cm.getText();
+    ts.writeText(t, c);
+
+
+    test = "brown;Display 0xbrown; colored text";
+    cm = new ColorManager(test);
+    c = cm.getColorCode();
+    t = cm.getText();
+    ts.writeText(t, c);
+
+    ts.writeText("the fourth test of getColor($test) returned <$c> and text of <$tx>\n");
+
+
+    test = "brown;Display #brown; colored text";
+    cm = new ColorManager(test);
+    c = cm.getColorCode();
+    t = cm.getText();
+    ts.writeText(t, c);
+
+    test = "the fifth test of getColor($test) using # as color sig. returned <$c> and text of <$tx>";
+    cm = new ColorManager(test);
+    c = cm.getColorCode();
+    t = cm.getText();
+    ts.writeText(t, c);
+
+
+
+    def text = "This is some text for color 0xc00087; - magenta"
+    int color = Integer.decode( "0xc00087" );
+    ts.writeText(text,color)
+    
+    text = "another case of color declared separately as 0x00ff00 - no semicolon - green"
+    int color = Integer.decode( "0x339933" );
+    ts.writeText(text,color)
+    
+    
+    text = "bad color 0x00ffg0 used here declared separately as 0x00ffg0 no semicolon"
+    color = "0x00ffg0"
+    ts.writeText(text,color)
+    
+    text = "test text with color name of blue as separate color parm"
+    color = "blue"
+    ts.writeText(text,color)
+
+    text = "this line has no color declared."
+    ts.writeText(text)
+
+    text = "0xc00088;this line has magenta color declared as part of command as 0xc00088;"
+    ts.writeText(text)
+    
+    color = ts.colors["blue"]
+    ts.writeText("$color;blue color text as part of command line.")
+    
+    text = "use of a color name with #blue; as part of text command."
+    color = "lime;"
+    ts.writeText(text,color)
+    
+    text = "using # color like #ff0000; for red"
+    color = "#ff0000;"
+    ts.writeText(text,color)
+
+    text = "using # color like #00ff00 for green without semi-colon;"
+    color = "#00ff00"
+    ts.writeText(text,color)
+
+    text = "0xw00088;this line has bad magenta hex color declared as part of command as 0xw00088;"
+    ts.writeText(text)
+
+    text = "0xc88;this line has short color declared as part of command as 0xc88;"
+    ts.writeText(text)
+    
+    text="#f;Test short color spec. #d;"
+    ts.writeText(text)
+    
+    ts.writeText("red;Start of leanne.txt ----------------------------")
+    
+    def f = new File("./data/leanne.txt")   // get handle for the menu text file
+        f.eachLine         // walk thru each line of menu file ignoring comment lines starting with //
+        {    aline -> 
+                    cm = new ColorManager(aline);
+                    c = cm.getColorCode();
+                    t = cm.getText();
+                    ts.writeText(t, c);
+                //ts.appendText(lines);
+        }
+    // end of file input
+
+
+    def swing = new SwingBuilder()
+    def frame = swing.frame(title:"test", background:Color.black, pack:false, location:[20,20], size:[600,700], show:true, defaultCloseOperation:JFrame.EXIT_ON_CLOSE) 
+        {   
+            sp1 = scrollPane(id:'sp1',border:null,minimumSize:[590,690]) {widget( ts.jtp ) }
+            
+        }
+
+    println "=====================  End  =======================================\n"
+
+    } // end of main
+    
+} // end of class

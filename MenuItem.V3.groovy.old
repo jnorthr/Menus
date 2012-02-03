@@ -1,0 +1,286 @@
+// what if menu filename already has entry when 'go menu' is decoded;
+// when to assign BIC
+
+public class MenuItem
+{
+    int menuKey            // relative placement priority numbering key
+    int menuBIC            // builtin command number; zero if not builtin; 1 if go to another menu;   
+    int menuColumn         // which column to show this item if menuShow=true
+    int menuLine           // which line of the above column to show this item on
+    String menuColor       // particular color specification; eventually will hold hex values like 0xc00080 or #blue; 
+    boolean menuShow       // true to show it
+    String menuText        // the text of the menu item before the := that appears to user
+    String menuCommand     // the full string after the := to be executed when this menu number is keyed
+    String dialogTitle     // shows in title of dialog if BIC number says so
+    String menuFileName    // when a BIC of 1 ='go' says load and display another menu, this is the file name to load;
+                           // typically like ./data/menu.txt
+    boolean menuFileExists // true if go menufile confirmed to exist                   
+
+    TextSupport ts;
+    def fi;
+    boolean audit = false;
+
+    // ==================================================================
+    // set flag to force audit trail to print
+    public void setAudit(boolean f)
+    {
+        audit = f
+    } // end of method
+
+    // ==================================================================
+    // method to override compareTo() using spaceship operator <=>
+    int compareTo(other) 
+    {
+        this.menuColumn <=> other.menuColumn && this.menuLine <=> other.menuLine
+    } // end of method
+
+   // ==================================================================
+   // look for the builtin 'go' command that i used to load another menu
+    public hasGo()
+    {
+        def txt = menuCommand.trim()+"   "
+	def x3 = txt.toLowerCase().substring(0,3);
+        if (x3.equals("go ")) 
+        {
+            menuBIC = 1;
+            if ( findMenuFileName( menuCommand.trim().substring(3) ) )
+            say "menuFileName $menuFileName exists";    //confirmMenu();
+        } // end of if
+    } // end of method
+    
+    // ==================================================================
+    // look up filename if it exists; print message showing results, if audit flag is set 
+    public chkobj(def filename)
+    {
+        fi = new File(filename);
+        def flag2 = (fi.exists()) ? true : false
+        say (flag2) ? "file $filename exists" : "file $filename does not exist";
+        return flag2
+    } // end of method
+    
+    // ==================================================================
+    // confirm menu exists if the provided file name - possibly massaged - is present
+    public findMenuFileName(String fn)
+    {
+        // take 1st char. of filename - if . or / then it's absolute and not relative path
+        def ch = fn.substring(0,1);
+        
+        // if menu file name does not end with .txt then add  it
+        fn += (fn.toLowerCase().endsWith(".txt")) ? "" : ".txt"  ;
+        say "fn = <$fn> and ch=$ch"
+        
+        // does massaged filename exist ?
+        if (chkobj(fn))
+        {
+            menuFileName = fn;
+            menuFileExists = true;
+            return true;
+        } // end of if file does exist 
+        
+        if (ch=='.' || ch=='/')
+        {
+            say "menu file $fn not found !"
+            menuFileName = fn;
+            menuShow = false;    // do not show this menu option as menu file does not exist
+            return false;
+        } // end of if
+        
+        // try alternate look into ./data subfolder for this menu file
+        def fn2 = "./data/" + fn;
+        if (chkobj(fn2))
+        {
+            menuFileName = fn2;
+            menuFileExists = true;
+            return true;
+         } // end of if file exists 
+
+         say "menu file $fn2 not found either !"
+         menuFileName = fn;
+         menuShow = false;
+         return false;
+    } // end of method
+
+
+    // ==================================================================
+    // constructor
+    public MenuItem()
+    {
+        ts = new TextSupport();
+        menuKey = 0;
+        menuBIC = 0;
+        menuColumn = 0;
+        menuLine = 0;
+        menuColor = "#00ff00;";
+        menuShow = true;
+        menuText="";
+        menuCommand="";
+        dialogTitle = "";
+        menuFileName = "";    
+        menuFileExists = false;
+    }
+    
+    // ==================================================================
+    // constructor - only key plus command text as shown text is = command
+    public MenuItem(def key, def command)
+    {
+        this();
+        menuKey = key;
+        menuText = command;
+        menuCommand = command;   
+        hasGo(); 
+    }
+    
+    // ==================================================================
+    // constructor - only key, text and command, everything else defaults
+    public MenuItem(def key, def text, def command)
+    {
+        // call super
+        this();
+        menuKey = key;
+        menuText = text;
+        menuCommand = command;
+        
+        // see if text has a known signature 0X or # prefix ending with ; in first 18 chars.
+        if (ts.hasColorSignature(text))
+        {
+            menuColor = ts.getColor(text)
+            menuText  = ts.getText(text) 
+            say "menuColor=<$menuColor> from $text"       
+        }  // end of if
+        
+        hasGo(); 
+    } // end of constructor
+
+
+    // ==================================================================
+    // constructor
+    //         MenuItem mi = new MenuItem(5,7,2,1,"green",true,"Display Jim Panel","go ./data/jim.txt","Main Menu Title","./data/jim.txt",true);
+
+    // full constructor allows programatic build of a MenuItem with no checking or validation; It's your values that may/not work, if you know what you're doing.
+    // except column and row numbers
+    public MenuItem(int key, int bic, String color, boolean show, String text, String command, String title, String filename, boolean fileExists)
+    {
+        this();
+        menuKey = key;
+        menuBIC = bic;
+        menuColor = color;
+        menuShow = show
+        menuText = text;
+        menuCommand = command;
+        dialogTitle = title;
+        menuFileName = filename;
+        menuFileExists = fileExists;
+
+        // see if text has a known signature 0X or # prefix ending with ; in first 18 chars.
+        if (ts.hasColorSignature(text))
+        {
+            menuColor = ts.getColor(text)
+            menuText  = ts.getText(text) 
+            say "menuColor=<$menuColor> from $text"       
+        }  // end of if
+
+        hasGo(); 
+    } // end of constructor
+
+    // =====================================================
+    // make some methods to put values into this MenuItem
+    void putAt(int n, int c, int l){ if(menuKey == n) menuColumn = c; menuLine= l;  }
+    void putAt(int n, String o){ if(menuKey == n) menuCommand= o;  }
+    def getAt(int n){ if(menuKey == n) return menuCommand }
+
+    String toString() {
+	def mk = menuKey.toString().padLeft(10)
+	def mb = menuBIC.toString().padLeft(6)
+	def ml = menuLine.toString().padLeft(9)
+	def mc = menuColumn.toString().padLeft(8)
+	def mo = menuColor.toString().padRight(8)
+	def ms = menuShow.toString().padLeft(6)
+	def mx = menuFileExists.toString().padLeft(10)
+	def mt = (menuText) ? menuText.trim() : '<No Text>'
+	def md = (dialogTitle) ? dialogTitle : '<No Dialog>'
+	def mfn = (menuFileName) ? menuFileName : '<No Menu Name>'
+	def tx = """MI : menuKey menuBIC menuColumn menuLine menuColor menuShow menuFileExists menuText         menuCommand            dialogTitle        menuFileName\n$mk $mb $mc $ml      $mo $ms $mx       $mt     ${(menuCommand) ? menuCommand : '<No Command>' } $md $mfn"""}
+
+    // ============================================
+    // print debug text (maybe)
+    def say(def text) 
+    {
+        if (audit) println "MI:$text" 
+    } // end of say
+
+    // ==============================================
+    static prt(def text) 
+    {
+        // println "\nMI:$text" 
+    } // end of prt
+
+    // ===============================================
+    // test harness for this class
+    public static void main(String[] args)
+    {    
+        prt "... started"
+
+        // menu array 
+        def ma = []
+// revise to use MenuArray
+
+        // must use basic constructor with seq.key and command text
+        MenuItem mi = new MenuItem(1,"go html");
+        prt mi;
+        
+        mi[1] = "echo 'hi kids'"; 
+        prt mi;
+        assert !mi[1].equals("jim")
+        ma << mi
+        
+        // this does not really work because the current mi has a key of 1 not 2, as you can see when you print the mi
+        mi[2] = "fred"
+        prt "changed mi[2] to fred but = "+mi;
+        assert !(mi[2]=="fred")    // fails on == 
+//        mi = new MenuItem(2,2,'C','Y',"Fred","echo 'fred was here'",1)
+        prt mi
+        //assert mi=='echo 'fred was here' '    // can't get the syntax right for this, single,triple or double quotes won't work
+        ma << mi
+        
+        // must use basic constructor with seq.key and command text
+        mi = new MenuItem();
+        prt "basically, an empty mi = "+mi;
+        mi = new MenuItem(8,"groovy -v");
+        prt "an mi with no menu call = "+mi;
+        ma << mi;
+         
+        MenuItem menu = new MenuItem(4,"#ccffcc;Display HTML Menu","go this should hold a menu filename");
+        prt menu;
+        ma << menu
+                
+        MenuItem mi5 = new MenuItem(5,7,"green",true,"Display Jim Panel","go ./data/jim.txt","Main Menu Title","./data/jim.txt", true);
+        prt mi5;
+        ma << mi5;        
+
+        MenuItem menu2 = new MenuItem(4,"0xred;Display Max Menu","go ./data/max.txt");
+        prt menu2;
+        ma << menu2
+        
+        MenuItem menu3 = new MenuItem(14,"Display Max2 Menu","go max2.txt");
+        prt menu3;
+        ma << menu3
+
+        MenuItem menu4 = new MenuItem(14,"Display HTML Menu","go main");
+        prt menu4;
+        ma << menu4
+
+        prt "\n------------------------\nre-assign keys"
+        int i = 1;
+        ma.eachWithIndex{ m, ix -> 
+            m.menuKey = 0
+            if (m.menuShow) ma[ix].menuKey = i++;
+            prt "   ix=$ix : "+m;
+        }
+
+
+        prt "\nma size is ${ma.size()} and has these menu items:"
+        ma.each{ m -> prt m;}
+        prt "== the end =="
+    } // end of main
+
+} // end of class

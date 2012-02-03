@@ -1,0 +1,60 @@
+import java.awt.Color;
+public class MenuEntry
+{
+	int bic;
+	int menunumber;
+	def itemtitle;
+	def itemcommand;
+	boolean bold;
+	boolean italics;
+	int hexColor;
+
+	// class constructor - loads configuration,etc.
+	public MenuEntry()
+	{
+		bic = 0;
+		menunumber = 0;
+		itemtitle = "";
+		itemcommand = "";
+		italics = false;
+		bold = false;
+		hexColor = Integer.parseInt("ff0000",16);
+	} // end of constructor
+
+
+	public applycolor()
+	{
+		// Hex to color
+		int intValue = Integer.parseInt( "ff0000",16);
+		Color aColor = new Color( intValue );
+	} // apply color
+
+	// print debug text (maybe)
+	public static void say(def text) 
+	{
+		println "$text"; 
+	} // end of say
+
+	public dump()
+	{
+		println "MenuEntry : bic:$bic menunumber:$menunumber itemtitle:<${itemtitle}> itemcommand:<${itemcommand}> bold:${bold} italics:${italics} hexColor=${Integer.toHexString(hexColor)}"
+	} // end of dump
+
+	// test harness for this class
+	public static void main(String[] args)
+	{	
+		say "... started"
+		MenuEntry me = new MenuEntry()
+		me.dump();
+
+		me.bic = 2;
+		me.menunumber = 1;
+		me.bold = true;
+		me.italics = true;
+		me.itemtitle = "Networks"
+		me.itemcommand = "netstat -c";
+		me.dump();
+		say "... ended"
+	} // end of method
+
+} // end of class

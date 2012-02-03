@@ -1,0 +1,7 @@
+G r a i l s   M e n u:=*MENUTITLE
+Grails Blog:=open http://storypodders.com/dasBlog/CategoryView,category,Groovy.aspx
+Grails Goodness - MrHaki:=open http://mrhaki.blogspot.com/2011/03/grails-goodness-access-configuration-in.html
+Grails Youtube Tut:=open http://www.youtube.com/v/IHUPLOnUF4g
+
+
+

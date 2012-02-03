@@ -1,0 +1,23 @@
+JQuery Menu:=*MENUTITLE
+JQuery GetJson():=open http://api.jquery.com/jQuery.getJSON/
+Loading a Drop Down List Using jQuery:=open http://www.html-form-guide.com/jquery/drop-down-list-jquery.html
+Creating a contact form for your website:=open http://www.html-form-guide.com/contact-form/creating-a-contact-form.html
+JQuery Tips:=open http://net.tutsplus.com/tutorials/javascript-ajax/quick-tip-jquery-newbs-stop-jumping-in-the-pool/?utm_source=feedburner&utm_medium=feed&utm_campaign=Feed%3A+nettuts+%28Nettuts%2B%29&utm_content=Google+UK
+Tooltip Tut:=open  http://www.mkyong.com/jquery/how-to-create-a-tooltips-with-jquery/
+Loading a Drop Down List Using jQuery:=open http://www.html-form-guide.com/jquery/drop-down-list-jquery.html
+Creating a contact form for your website:=open http://www.html-form-guide.com/contact-form/creating-a-contact-form.html
+MKyong JQuery Tuts:=open http://www.mkyong.com/tutorials/jquery-tutorials/
+Mkyong form selectors:=open http://www.mkyong.com/jquery/jquery-form-selectors-example/
+Mkyong JQ Html Example:=open http://www.mkyong.com/jquery/jquery-html-example/
+Flow Player Plug Ins 4 JQ:=open http://flowplayer.org/plugins/index.html
+JQ Ajax Autocomplete:=open http://www.ajaxdaddy.com/demo-jquery-autocomplete.html
+JQ 1.8 Autocomplete:=open http://docs.jquery.com/UI/Autocomplete
+JQ Autocomplete:=open http://jqueryui.com/demos/autocomplete/#method-search
+JQ Collapse(like Accordion):=open http://webcloud.se/code/jQuery-Collapse/
+JQ Tools Overlay:=open http://flowplayer.org/tools/demos/overlay/styling.html
+JQ Ajax API:=open http://api.jquery.com/jQuery.ajax/
+How to Use the jQuery UI Autocomplete:=open http://net.tutsplus.com/tutorials/javascript-ajax/how-to-use-the-jquery-ui-autocomplete-widget/
+Make Animated Ajax GIFs:=open http://ajaxload.info/ 
+JQ Tools in Flowplayer:=open http://flowplayer.org/tools/download/index.html
+
+

@@ -1,0 +1,26 @@
+1. On command line, enter a command or the number of an option to execute.
+2. Copy, cut and paste is available on the command line.
+3. On Mac O/S systems, you may need to start your task with the word 'command', such as 'command echo $JAVA_HOME'
+4. Java Properties follow :
+java.vm.version 14.1-b02-92
+user.dir /Volumes/UBUNTU/Groovy/Menus
+java.runtime.version 1.6.0_15-b03-226
+os.name Mac OS X
+os.version 10.5.8
+user.home /Users/leanne
+echo $JAVA_HOME = /System/Library/Frameworks/JavaVM.framework/Versions/1.6/Home
+echo $GROOVY_HOME = /Developer/Development/personal/groovy/groovy-1.6.4
+5. System Values follow :
+CLASSPATH=/Developer/Development/personal/groovy/groovy-1.6.4/lib
+HOME=/Users/leanne
+HOSTNAME=leanne.local
+LOGNAME=leanne
+PWD=/Volumes/UBUNTU/Groovy/Menus
+USER=leanne
+PATH='/Developer/Development/personal/groovy/groovy-1.6.4/bin:/System/Library/Frameworks/JavaVM.framework/Versions/1.6/Home/bin
+:/opt/local/var/macports/software/openssl/0.9.8g_0/opt/local/bin:/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin
+:/Library/Application Support/VMware Fusion:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/opt/local/bin
+:/usr/local/git/bin'
+6. edit ./data/menu.txt to add/modify commands
+7. You can use URL addresses from command line or as a menu.txt item like www.bbc.co.uk
+8. Commands like ls -al *.java  will not give expected results as *.java is a shell expansion feature to return all files

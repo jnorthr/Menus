@@ -1,0 +1,89 @@
+<html><head>To Do List</head><body  bgcolor="aqua" border="2">
+
+<h2>Here are notes about new features and things that need to be fixed :</h2>
+
+<ol>
+<li>change title to include date/time/user/system name/pwd - <b>done</b>
+<li>include icons to setup initial position to a cornor of the screen - properties does this
+vmake jextfield have an underline rather than a box - <b>done</b>
+<li>allow function keys - <b>done</b>
+<li>to run builtin commands, write a temp. script that's callable - not required; use 'command' prefix on mac os - what about xp ? see processbuilder.groovy
+<li>multi-column menu choices - <b>done</b>
+<li>non-numeric option kills menu - <b>done</b>
+<li>change caret to block - tough
+<li>use scroll pane jtextarea to display results - done using styled JTextPane; also cut&copy works but need to tab back to command line
+<li>try using command echo $GROOVY_HOME  to decode environmental variables - needs more work if > 1 $values
+<li>make text in jtextpane courier and green text and blue border - <b>done</b>
+<li>Run modal commands from options line - <b>done</b>
+<li>SBMJOB - maybe & at end of command does same ?
+<li>call qcmd & go menuname - go is <b>done</b>
+<li>F9 recall previous command - almost: does not do all commands like http:// or GO command
+<li>Reposition textpane to start of most recent command - see setCaret in Support - still off by number of cr/lf.s ? Only shows at bottom of jtp
+<li>decode ls -al hexcodes on display
+<li>include F key usage in panel - <b>done</b>
+<li>report no such option - <b>done</b>
+<li>use return  code to color code the text - <b>done</b>
+<li>find index of error=2 - <b>done</b>
+<li>save as ./data/logfile.txt
+<li>as general purpose tool, use File>Open, File>New and File>Save to preserve text files, notes, logs 
+<li>cannot balance top/bottom panels when expanded to full screen mode - <b>done</b>: used gridbagconstraints or horizontal split screen
+<li>finish timer - needs more logic to refresh menu title lines - <b>done</b> : may need placement on screen - <b>done</b>
+<li>use main.txt in place of properties to build menu structure and refresh via F5 key - <b>done</b>
+<li>cannot change titles and refresh - may work now that titles are actually in the swing tree ?
+<li>cd .. from command line fails to change pwd, look into building environmental process
+<li>some commands like man ifconfig fail to return as the utility is waiting for an additional 'enter' keypress
+<li>allow www or http:// to signal an html URL for setPage or use 'open' command on mac but looses focus on textfield cos window switch to safari
+<li>remove loadMenus() from this source & use from ColumnSupport.() - <b>done</b>
+<li>allow debug text to go to jtp
+<li>allow https: - <b>done</b>
+<li>try 'go' menu as external command, does it exist? no=if not dot add .txt=does it exist? 
+    no=did it say ./data folder? no=try in ./data folder - <b>done</b>
+<li>make frame title come from main.txt file - <b>done</b>
+
+<li>command line fails on ls -al *.groovy   - why ? because *.java is a shell expansion feature---> to get a list of files in a dir, try:
+	assert new File('D:/Groovy/Scripts').list().toList() ==['Script.bat', 'File1.txt', 'File2.txt', 'Directory1', 'Directory2']
+<or>
+list= []
+new File('D:\\Groovy\\Scripts').eachFileMatch(~/File.*?\.txt/){ list<< it.name }
+    //a regular expression, or any caseable expression
+assert list == ['File1.txt', 'File2.txt']
+
+<li>picking an option higher than possible after an F5 menu reload does not set max properly - fixed
+<li>if additional command line options follow a menu number choice, allow those extra parms to flow thru
+<li>can menu help text translate the various parms such as $JAVA_HOME into the current values on the current system, not a static system ?
+<li>menu title not refreshed when changing menu text file - fixed
+<li>menuItems count wrong when changing menu text file - fixed
+<li>finish logic to allow titles in menus without assigning a menu number to them
+<li>provide menu context -sensitive help system, if a menu xxx.txt has xxx.html as help else if not present use main.html 
+<li>url in *.html page will not find correct images
+<li>do not load menu file unless it has at least one  := and default title name = menu file name if missing - <b>done</b>
+<li>allow {} as command text for several command's or groovy shell call like : {cd /home/jim; play run} which should run 2 commands: command cd /home/jim then command play run
+<li>cannot update the time in header panel - tough - must rebuild headersupport each time !
+<li>finish menuitem class and integrate it
+<li>function key to toggle show of command text - <b>done</b>
+<li>show available menus from ./data at boj - <b>done</b>
+<li>F12 when already on main does not need refresh
+</ol>
+
+<p>	lookAndFeel("metal")	<br />	
+If you want to get a resource file, such as an icon, use:<br />
+InputStream in = MyClass.class.getResourceAsStream("MyIcon.gif");
+
+<p>p=['sh','-c','ls -l | sort'].execute()<br />
+println p.text
+
+<p>if it's winblows, I'd give up hope, of doing any meaningful command piping. But it does work
+
+<p>groovy> p=['cmd','/c','dir|sort'].execute()<br />
+groovy> println p.text<br />
+groovy> go<br />
+
+<p>The following workaround works fine :<br />
+ - Clear the text area with 'setText(null)'<br />
+ - reinsert content with 'insert' method from 0 position
+
+
+
+
+
+</body></html>
