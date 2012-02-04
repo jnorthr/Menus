@@ -1,0 +1,27 @@
+import java.awt.BorderLayout;
+import javax.swing.*
+import javax.swing.JEditorPane;
+import javax.swing.JFrame;
+
+public class Help {
+  public static void main(String[] argv) throws Exception{
+    String url = "./data/help.txt";
+    //URL helpURL = new URL(url);
+/*
+groovy Help.groovy 
+Caught: java.io.IOException: invalid url
+	at Help.main(Help.groovy:15)
+*/
+    ClassLoader.getSystemResource(url);
+
+    String g = new File(url).text   // get handle for the menu text file
+// needs work to pick up a url html text
+    JEditorPane editorPane = new JEditorPane(url);
+    editorPane.setEditable(false);
+    def sp = new JScrollPane(editorPane)
+    JFrame frame = new JFrame();
+    frame.getContentPane().add(sp, BorderLayout.CENTER);
+    frame.setSize(300, 300);
+    frame.setVisible(true);
+  }
+}

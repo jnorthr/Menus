@@ -1,0 +1,312 @@
+// allow hash char. #  using alt-3 on keyboard
+import java.awt.Color;
+import java.awt.*;
+import javax.swing.text.*;
+import javax.swing.*
+import groovy.swing.SwingBuilder
+
+public class TextSupport
+{
+    def jtp;
+    StyledDocument doc;
+    def colors = [:]
+    def at; // pointer to semi-colon in text stream
+    
+    
+    public TextSupport()
+    {
+        jtp = new JTextPane();
+
+        colors += ["aqua":"00ffff"]
+        colors += ["beige":"f5f5dc"]
+        colors += ["black":"000000"]
+        colors += ["blue":"0000ff"]
+        colors += ["brown":"a52a2a"]
+        colors += ["cornflowerblue":"6495ed"]
+        colors += ["cornsilk":"fff8dc"]
+        colors += ["cyan":"00ffff"]
+        colors += ["darkblue":"00008b"]
+        colors += ["darkgray":"a9a9a9"]
+        colors += ["darkgreen":"006400"]
+        colors += ["darkorange":"ff8c00"]
+        colors += ["darkred":"8b0000"]
+        colors += ["deeppink":"ff1493"]
+        colors += ["forestgreen":"228b22"]
+        colors += ["fuchsia":"ff00ff"]
+        colors += ["gold":"ffd700"]
+        colors += ["gray":"808080"]
+        colors += ["green":"008000"]
+        colors += ["indigo":"4b0082"]
+        colors += ["ivory":"fffff0"]
+        colors += ["lavender":"e6e6fa"]
+        colors += ["lightblue":"add8e6"]
+        colors += ["lightgreen":"90ee90"]
+        colors += ["lightgrey":"d3d3d3"]
+        colors += ["lime":"00ff00"]
+        colors += ["limegreen":"32cd32"]
+        colors += ["magenta":"ff00ff"]
+        colors += ["mediumblue":"0000cd"]
+        colors += ["navy":"000080"]
+        colors += ["olive":"808000"]
+        colors += ["orange":"ffa500"]
+        colors += ["pink":"ffc0cb"]
+        colors += ["plum":"dda0dd"]
+        colors += ["purple":"800080"]
+        colors += ["red":"ff0000"]
+        colors += ["silver":"c0c0c0"]
+        colors += ["turquoise":"40e0d0"]
+        colors += ["teal":"008080"]
+        colors += ["violet":"ee82ee"]
+        colors += ["white":"ffffff"]
+        colors += ["yellow":"ffff00"]                
+    } // end of constructor
+    
+    
+    def say(txt)
+    {
+        println txt
+    }
+
+    // ================================================================
+    // method to add text to pane with specific display attributes; copied from Support.groovy
+    private void appendText(String s, AttributeSet attributes) 
+    {
+        String sb = '\n'+s
+        doc = jtp.getDocument();
+        jtp.grabFocus();
+        try 
+        {
+            doc.insertString(doc.getLength(), sb, attributes);
+        }
+        catch (BadLocationException e) {}
+    } // end of appendText
+    
+        
+    // method to add text to pane with no display attributes; copied from Support.groovy
+    private void appendText(String s) 
+    {
+        def as0 = new SimpleAttributeSet();
+        appendText(s, as0);
+    } // end of appendText
+    
+
+
+    // --------------------------------------------------------------
+    // produces full result of writing text in a hex color to the jtextpane document; color must conform to 0xff00ff; style of declaration
+    private writeText(text, color)
+    {
+        // colorsignature is zero if start of color missing the olor signature 
+        def colorsignature = 0;
+        def printed = false;
+        if (color.trim().substring(0,1) == '#') colorsignature=1;
+        if (color.trim().substring(0,2).toLowerCase() == '0x') colorsignature=2;
+            
+        def text2
+        if (colorsignature < 1)
+        {
+             color = '#'+color        
+        }
+        
+        at = color.trim().indexOf(';') 
+        if (at<0) color += ';';
+           
+        text2=color+text;
+        writeText(text2);
+     } // end of method
+
+
+
+    // produces full result of writing text in a hex color to the jtextpane document
+    private writeText(text)
+    {
+        def as0 = new SimpleAttributeSet();
+        
+        // print input text in green
+        //StyleConstants.setForeground(as0, Color.black); 
+        //appendText(text+'\n', as0);
+
+        // find first semi-colon ;
+        at =  text.trim().indexOf(';') 
+        def foundsemi    // boolean flag true if location of semi-colon within allowable range
+        switch(at)
+        {
+            case -1 : foundsemi = false; break;
+            case 0..17 : foundsemi = true; break;
+            default : foundsemi = false;        
+        }
+        
+        // colorsignature is zero if start of color missing the olor signature 
+        def colorsignature = 0;
+        def printed = false;
+        if (text.trim().substring(0,1) == '#') colorsignature=1;
+        if (text.trim().substring(0,2).toLowerCase() == '0x') colorsignature=2;
+
+        // looks good for a color declaration, try more
+        if (foundsemi)
+        {
+            // text with leading color signature removed
+            def newtext = text.substring(at+1)
+            
+            // color signature prefix was found i.e. # or 0x
+            if (colorsignature > 0)
+            {
+                // pick out bits between 0x and ;
+                def color = text.trim().substring(colorsignature, at);
+                
+                // audit trail in orange
+                //StyleConstants.setForeground(as0, Color.orange); 
+                //appendText("color <$color> found in text where at=$at  foundsemi=$foundsemi colorsignature=$colorsignature", as0);
+                
+                // now check color bit, see if it's the name of a color first
+                // colornameflag = true if in colors map
+                def col2 = color.toLowerCase()
+                def colornameflag = colors.containsKey(col2);
+                def colornamevalue = null
+                
+                // flag is true if value is actual name of a color, then use it as key to get hex
+                if (colornameflag) 
+                {
+                    colornamevalue = colors[(color)];
+                }
+                else
+                {
+                    colornamevalue = color; // something possibly like ffc0a0 found so use that
+                } // end of else
+
+                //StyleConstants.setForeground(as0, Color.orange); 
+                //appendText("colornameflag=$colornameflag color=$color colornamevalue=$colornamevalue", as0);
+                
+                
+                try
+                {
+                    def number = Integer.parseInt(colornamevalue, 16);
+                    appendText("color hex value '$colornamevalue' becomes $number", as0);
+                    
+                    // create a Color object
+                    def col = new Color(number)
+                    StyleConstants.setForeground(as0, col); 
+                    appendText(newtext, as0);
+                    printed = true;
+                }
+                catch (Exception x)
+                {
+                        //StyleConstants.setForeground(as0, Color.red); 
+                        //appendText("color value '$colornamevalue' could not be converted", as0);
+                        //StyleConstants.setForeground(as0, Color.black); 
+                        //appendText(text);  //, as0);
+                } // end of catch
+                
+            } // end of if
+            else
+            {
+                // no color sig found" # or 0x
+                //StyleConstants.setForeground(as0, Color.black);
+                //appendText(text);  //, as0);
+            } // end of else
+        } // end of if
+        
+        else
+        {   
+            // no semi-colon detected     
+            //StyleConstants.setForeground(as0, Color.black);
+            //appendText(text);  //, as0);
+        } // end of else
+
+        if (!printed)
+        {
+            appendText(text);
+        } // end of if
+
+    } // end of method
+
+
+// --------------------------------------------------------------
+// test my new class
+public static void main(String[] args)
+{
+     def lines = "\n==================================================="
+        
+    // My new class
+    TextSupport ts = new TextSupport();
+    
+    //ts.appendText(lines)
+
+    def text = "This is some text for color 0xc00087; - magenta"
+    def color = "0xc00087;"
+    ts.writeText(text,color)
+    //ts.appendText(lines)
+    
+    text = "another case of color declared separately as 0x00ff00 - no semicolon - green"
+    color = "0x00ff00"
+    ts.writeText(text,color)
+    //ts.appendText(lines)
+    
+    
+    text = "bad color 0x00ffg0 used here declared separately as 0x00ffg0 no semicolon"
+    color = "0x00ffg0"
+    ts.writeText(text,color)
+    //ts.appendText(lines)
+    
+    text = "test text with color name of blue as separate color parm"
+    color = "blue"
+    ts.writeText(text,color)
+    //ts.appendText(lines)
+
+    text = "this line has no color declared."
+    ts.writeText(text)
+    //ts.appendText(lines)
+
+    text = "0xc00088;this line has magenta color declared as part of command as 0xc00088;"
+    ts.writeText(text)
+    //ts.appendText(lines)
+    
+    color = ts.colors["blue"]
+    ts.writeText("$color;blue color text as part of command line.")
+    //ts.appendText(lines)
+
+    
+    text = "use of a color name with #blue; as part of text command."
+    color = "#blue;"
+    ts.writeText(text,color)
+    //ts.appendText(lines)
+
+    
+    text = "using # color like #ff0000; for red"
+    color = "#ff0000;"
+    ts.writeText(text,color)
+    //ts.appendText(lines)
+
+    text = "using # color like #00ff00 for green without semi-colon;"
+    color = "#00ff00"
+    ts.writeText(text,color)
+    //ts.appendText(lines)
+
+    text = "0xw00088;this line has bad magenta hex color declared as part of command as 0xw00088;"
+    ts.writeText(text)
+    //ts.appendText(lines)
+
+    text = "0xc88;this line has short color declared as part of command as 0xc88;"
+    ts.writeText(text)
+    //ts.writeText2(lines)
+    
+    ts.appendText(lines)
+
+
+    def f = new File("./data/leanne.txt")   // get handle for the menu text file
+        f.eachLine         // walk thru each line of menu file ignoring comment lines starting with //
+        {    aline -> ts.writeText(aline);  
+                    //ts.appendText(lines);
+        }
+    // end of file input
+
+
+
+    def swing = new SwingBuilder()
+    def frame = swing.frame(title:"test", background:Color.black, pack:false, location:[20,20], size:[600,700], show:true, defaultCloseOperation:JFrame.EXIT_ON_CLOSE) 
+    {   
+            sp1 = scrollPane(id:'sp1',border:null,minimumSize:[590,690]) {widget( ts.jtp ) }
+            
+    }
+    } // end of main
+    
+} // end of class

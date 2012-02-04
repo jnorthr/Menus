@@ -26,7 +26,7 @@ public class Splasher
     	System.out.println("... Splasher starting");
     	String fn = "menus.groovy";
     	if (args.length>0) fn=args[0];
-        SplashWindow.splash(Splasher.class.getResource("loading.gif"));
+        SplashWindow.splash(Splasher.class.getResource("./resources/loading.gif"));
     	System.out.println("    invoke groovy script "+fn);
 
     	String[] path = {"/Volumes/Data/dev/groovy/Menus"}; //{"/Volumes/UBUNTU/Groovy/Menus"};		

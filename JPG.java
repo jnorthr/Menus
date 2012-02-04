@@ -44,7 +44,7 @@ public class JPG {
     {
         try 
         {
-            Dimension d = JPG. getImageDimension("./loading.jpg");
+            Dimension d = JPG. getImageDimension("./resources/loading.jpg");
         }
         catch (Exception x) {};
         System.exit(0);

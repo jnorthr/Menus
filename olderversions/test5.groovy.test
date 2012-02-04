@@ -1,0 +1,53 @@
+// this is a test harness for InvoiceSupport
+// needs revision of test logic to access new paths properties
+import java.io.*;
+import java.util.*
+import java.awt.*
+
+println "===========================\ntest5.groovy test harness for InvoiceSupport()"
+String propertyfile = './data/invoices.properties'
+String pathpropertyfile = './data/path.properties'
+
+// Get all system properties
+Properties props = System.getProperties()
+def osn = (String)props.get("os.name");
+def tokens = osn.toLowerCase().split(' ').toList()
+def osid = tokens[0]
+println "... InvoiceSupport() set to use $osid"
+
+config = new ConfigSlurper().parse(new File(propertyfile).toURL())
+paths = new ConfigSlurper(osid).parse(new File(pathpropertyfile).toURL())
+println "config is set to use '$osid' paths"
+
+
+println "home="+paths.home
+println "workpath="+paths.workpath
+println "datapath="+paths.datapath
+println "invoicepath="+paths.invoicepath
+println "PDFpath="+paths.PDFpath
+
+println "fontpath="+paths.fontpath
+println "basepath="+paths.basepath
+println "monofont="+paths.monofont
+println "pdfCommand="+paths.pdfCommand
+
+println "invoicefilename="+config.system.filenames.invoicefilename
+println "invoicehistoryfilename="+config.system.filenames.invoicehistoryfilename
+println "expensehistoryfilename="+config.system.filenames.expensehistoryfilename
+println "invoicetemplatefilename="+config.system.filenames.invoicetemplatefilename
+println "standingordersfilename="+config.system.filenames.standingordersfilename
+
+println "\nend of direct config reading\n==========================="
+
+InvoiceSupport is = new InvoiceSupport()
+println ".............................\nend of InvoiceSupport() constructor\n"
+int invno = 241
+println is.getInvoiceFilename(invno)
+println is.getInvoicePDFFilename(invno)
+println is.getInvoiceHistoryFilename()
+println is.getInvoiceTemplateFilename()
+println is.getStandingOrdersFilename()
+println is.getStandingOrdersFilename("bak")
+println is.getExpenseHistoryFilename()
+
+println "===========================\nend of test5.groovy\n======================="
