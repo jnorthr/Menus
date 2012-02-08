@@ -139,7 +139,7 @@ private void calculateLocation() {
     setLocation(locationx+3, HEIGHT-5);
 }
 public static void main(String [] args){
-	String fn = "./data/help.html";
+	String fn = "../menudata/help.html";
 	if (args.length < 1) {System.out.println("=> missing filename command line argument");}else{fn=args[0];};
         if( !java.awt.Desktop.isDesktopSupported() ) {
 

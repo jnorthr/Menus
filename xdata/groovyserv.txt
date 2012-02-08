@@ -1,0 +1,3 @@
+GroovyServ Menu:=*MENUTITLE
+Groovyserv User Guide:=http://kobo.github.com/groovyserv/userguide_en.html#ref-userguide
+Groovyserv Downloads:=open http://kobo.github.com/groovyserv/download.html#ref-download

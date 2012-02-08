@@ -16,7 +16,7 @@ public class PanelSupport
 	public PanelSupport()
 	{
 
-		String propertyfile = './data/menu.properties'  // non-OS specific parameters for business issues
+		String propertyfile = '../menudata/menu.properties'  // non-OS specific parameters for business issues
        	def config = new ConfigSlurper().parse(new File(propertyfile).toURL())	// get non-path related static values
 
 		swing = new SwingBuilder()

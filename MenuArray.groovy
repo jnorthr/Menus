@@ -5,7 +5,7 @@
 // or disallow constructor to enter col/row
 public class MenuArray
 {
-    boolean audit = true
+    boolean audit = false
     
     // linear menu array list of MenuItem's 
     def ma
@@ -230,115 +230,115 @@ say "r < $MAXMENULINES - 1 so bumped r=$r"
     // originally had menu load as part of ColumnSupport
     public void loadMenu(menuname)
     {  
-	def menudata
-            try 
-            {
-                def men = new File(menuname)
-                say "opening $menuname menu as ${men.canonicalPath} at ${men.lastModified()}"
-                menudata = men.getText();
-            } 
+	    def menudata
+        try 
+        {
+            def men = new File(menuname)
+            say "opening $menuname menu as ${men.canonicalPath} at ${men.lastModified()}"
+            menudata = men.getText();
+        } 
 
-            catch (FileNotFoundException e) 
-            {
-                System.err.println("FileNotFoundException: "+ e.getMessage());
-                throw new Exception(e);
-            }        
+        catch (FileNotFoundException e) 
+        {
+            System.err.println("FileNotFoundException: "+ e.getMessage());
+            throw new Exception(e);
+        }        
 
-            boolean notCleared = true
+        boolean notCleared = true
 
-            def words
-            def ix2=0
-            def menuLines = 0
-            def menuOptions = 0
-            MenuItem mi = new MenuItem();
+        def words
+        def ix2=0
+        def menuLines = 0
+        def menuOptions = 0
+        MenuItem mi = new MenuItem();
 
-            
-            // how many menu items ?
-            // signature for a menu option is text:=command
-            menudata.eachLine         // walk thru each line of menu file ignoring comment lines starting with //
-            {   aline ->
+
+        // how many menu items ?
+        // signature for a menu option is text:=command
+        menudata.eachLine         // walk thru each line of menu file ignoring comment lines starting with //
+        {   aline ->
                 say aline;
+
                 // if not a comment and line has := then split
                 if (!(aline.trim().startsWith("//")) && aline =~ /^.*\:=.*/)         
                 {    
                     ++ix2                
-                    
-                    // only clear existing menu variables if this menu file has at least one := command
-                    if (notCleared)
-                    {       
-                        notCleared=false
-                        menuLines = 0
-                        menuOptions = 0
-                        //bicNumber = []
-                        //menuTitle = []      // this text is what appears on the menu panel
-                        //menuCommand = []    // this is the command to be executed if this option is chosen
-                        //setFrameTitle("$mifilename")
-                    } // end of if
-
-                    words = aline.split(/\:=/)        // break menu option into 2 parts: 1) option text description 2) option command
-                    int wc = words.size()
-                    def word1 = ""
-                    def word2 = ""
-                    boolean flag = false    // set true when the command pair form a valid command
-                    int bic = 0        // set to zero unless this is an internal menu feature, a built-in command
-                    switch (wc)        // word count governs how it's handled
-                    {
-                        case 2:
-                            word1=words[0].trim()
-                            word2=words[1].trim()
-                            flag = ( word1.size() < 1 ) ? false : true
-                            break;
-
-                        // a word count of one means line format was 'xxx:='  without text after :=
-                        // was this for menu text only displays ?
-                        case 1:
-                            flag = true
-                            bic = 10
-                            word1=words[0].trim(); 
-                            say "word0=<$word1>"
-                            break;
-                    default:
-                        say "unknown wc=$wc for line <${aline}>"
-                        bic = 99
-                        break;
-                    } // end of switch
-
-
-                    // this is a valid pair, so store
-                    if (flag)
-                    {    
-                        say """  word1=<${word1}> bic=$bic""";
-                        //bicNumber << bic
-
-                        switch(bic)    // identify the builtin command or zero if normal menu option
-                        {
-                            case 99:    break;
-
-
-                            // *MENUTITLE
-                            case 90: 
-                            break;
-
-                            // typical bid command of zero
-                            default:
-                            menuLines += 1
-                            mi = new MenuItem(menuLines,word1,word2);
-			    say "---> this is menu line $menuLines : "
-			    say mi;
-                            this.ma << mi;                            
-                            break;
-                        } // end of switch
-
-                     } // end of if
-
-                } // end of if
                 
-             } // end of eachLine
+                // only clear existing menu variables if this menu file has at least one := command
+                if (notCleared)
+                {       
+                    notCleared=false
+                    menuLines = 0
+                    menuOptions = 0
+                    //bicNumber = []
+                    //menuTitle = []      // this text is what appears on the menu panel
+                    //menuCommand = []    // this is the command to be executed if this option is chosen
+                    //setFrameTitle("$mifilename")
+                } // end of if
 
-             say ". . . found $ix2 lines and menuLines=$menuLines"
+                words = aline.split(/\:=/)        // break menu option into 2 parts: 1) option text description 2) option command
+                int wc = words.size()
+                def word1 = ""
+                def word2 = ""
+                boolean flag = false    // set true when the command pair form a valid command
+                int bic = 0        // set to zero unless this is an internal menu feature, a built-in command
+
+                switch (wc)        // word count governs how it's handled
+                {
+                    case 2:
+                        word1=words[0].trim()
+                        word2=words[1].trim()
+                        flag = ( word1.size() < 1 ) ? false : true
+                        break;
+
+                    // a word count of one means line format was 'xxx:='  without text after :=
+                    // was this for menu text only displays ?
+                    case 1:
+                        flag = true
+                        bic = 10
+                        word1=words[0].trim(); 
+                        say "word0=<$word1>"
+                        break;
+                default:
+                    say "unknown wc=$wc for line <${aline}>"
+                    bic = 99
+                    break;
+                } // end of switch
+
+
+                // this is a valid pair, so store
+                if (flag)
+                {    
+                    say """  word1=<${word1}> bic=$bic""";
+                    //bicNumber << bic
+
+                    switch(bic)    // identify the builtin command or zero if normal menu option
+                    {
+                        case 99:    break;
+
+
+                        // *MENUTITLE
+                        case 90: 
+                        break;
+
+                        // typical bid command of zero
+                        default:
+                        menuLines += 1
+                        mi = new MenuItem(menuLines,word1,word2);
+    			    say "---> this is menu line $menuLines : "
+    			    say mi;
+                                this.ma << mi;                            
+                                break;
+                            } // end of switch
+
+                         } // end of if
+
+                    } // end of if
+                
+                } // end of eachLine
+
+                 say ". . . found $ix2 lines and menuLines=$menuLines"
     } // end of method
- 
- 
 
 
     // =======================================================================================
@@ -363,7 +363,7 @@ say "r < $MAXMENULINES - 1 so bumped r=$r"
         mi[2] = "fred"
         prt "changed mi[2] to fred but = "+mi;
         assert !(mi[2]=="fred")    // fails on == 
-        mi = new MenuItem(55,"Display Jim Panel 1","go ./data/jim.txt");
+        mi = new MenuItem(55,"Display Jim Panel 1","go ../menudata/jim.txt");
         //mi = new MenuItem(2,2,'C','Y',"Fred","echo 'fred was here'",1)
         prt mi
         //assert mi=='echo 'fred was here' '    // can't get the syntax right for this, single,triple or double quotes won't work
@@ -377,7 +377,7 @@ say "r < $MAXMENULINES - 1 so bumped r=$r"
         me.ma << mi;
          
 	// this flavor of constructor initializes a menu item and loads menu title and menu item text & command from  provided parm values
-        MenuItem menu = new MenuItem(4,"Display HTML Menu","go ./data/html.txt");
+        MenuItem menu = new MenuItem(4,"Display HTML Menu","go ../menudata/html.txt");
         prt menu;
 	// optionally stuff this menu item into a menu array[]
         me.ma << menu
@@ -386,12 +386,12 @@ say "r < $MAXMENULINES - 1 so bumped r=$r"
                 
 	// this flavor of constructor is mre complex & initializes a menu item, set color of text and column and row placement, several flags and then loads menu title, 
 	// menu item text & command from  provided parm values
-        MenuItem mi5 = new MenuItem(15,7,"green",true,"Display Jim Panel 2","go ./data/jim.txt","Main Menu Title","./data/jim.txt", true);
+        MenuItem mi5 = new MenuItem(15,7,"green",true,"Display Jim Panel 2","go ../menudata/jim.txt","Main Menu Title","../menudata/jim.txt", true);
         prt mi5;
         me.ma << mi5;        
 
 	// simple constructor using a key of 22 then stuff it into the menu array
-        MenuItem menu2 = new MenuItem(22,"Display 22","nano ./data/max.txt");
+        MenuItem menu2 = new MenuItem(22,"Display 22","nano ../menudata/max.txt");
         prt menu2;
         me.ma << menu2
         
@@ -436,7 +436,7 @@ say "r < $MAXMENULINES - 1 so bumped r=$r"
                 
 	// initialize brand new array with menu title and menu items loaded from a text file, then re-keyed and re-ordered
         // read from main.txt menu file        
-        MenuArray array = new MenuArray("./data/main.txt");
+        MenuArray array = new MenuArray("../menudata/main.txt");
 
         prt "\nMA : re-assign keys"
         array.assignKeys();
@@ -458,7 +458,7 @@ say "r < $MAXMENULINES - 1 so bumped r=$r"
                 
         prt "\nMA : create mae array then load another menufile"
         MenuArray mae = new MenuArray();
-	mae.loadMenu("./data/html.txt");
+	mae.loadMenu("../menudata/html.txt");
         mae.assignKeys();
 	int c3 = mae.countUsedCells() 
         prt "MA : mae.counted $c3 items"

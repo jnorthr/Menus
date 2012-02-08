@@ -1,7 +1,7 @@
 public class MenuFile
 {
 	private String dialogTitle	// shows in title of dialog if BIC number says so
-	private String menuFileName	// when a BIC of 'go' says load and display another menu, this is the file name to load; typically like ./data/menu.txt
+	private String menuFileName	// when a BIC of 'go' says load and display another menu, this is the file name to load; typically like ../menudata/menu.txt
     private boolean menuFileExists // true if go menufile confirmed to exist         
 
  
@@ -76,9 +76,9 @@ public class MenuFile
 		println "... started"
 		MenuFile mf = new MenuFile("max2.txt");
 		println mf
-		mf = new MenuFile("./data/jim.txt");
+		mf = new MenuFile("../menudata/jim.txt");
 		println mf
-		mf = new MenuFile("data/fred.txt");
+		mf = new MenuFile("menudata/fred.txt");
 		println mf
 		println "... the end "
 		println "--------------------------------------------------"

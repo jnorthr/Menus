@@ -1,0 +1,14 @@
+G l a s s f i s h   M e n u:=*MENUTITLE
+Start/Stop Glassfish:=open http://thedata.org/book/start-and-stop-glassfish-server
+Cherokee Cookbook 4 Glassfish:=open http://www.cherokee-project.com/doc/cookbook_glassfish.html
+Deploy Grails on Glassfish:=open http://wiki.glassfish.java.net/Wiki.jsp?page=GrailsGettingStarted
+Glassfish V3 Grails Wiki := http://wiki.glassfish.java.net/Wiki.jsp?page=GrailsGettingStarted
+Start / Stop Glassfish Server :=http://thedata.org/book/start-and-stop-glassfish-server
+Cherokee Glassfish Cookbook:=www.cherokee-project.com/doc/cookbook_glassfish.html
+Server 3.1 Admin - JDBC Jars,etc:=open http://docs.oracle.com/cd/E18930_01/html/821-2416/ggndx.html#gkpci
+Glassfish, config Datasource:=open http://www.daniweb.com/software-development/java/threads/276471
+MySQL DataSource in GlassFish:=open http://www.albeesonline.com/blog/2008/08/06/creating-and-configuring-a-mysql-datasource-in-glassfish-application-server/
+
+
+
+

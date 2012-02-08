@@ -6,6 +6,7 @@ import javax.swing.BorderFactory;
 import javax.swing.border.*
 import javax.swing.border.LineBorder
 import java.awt.GridLayout
+import groovy.swing.SwingBuilder
 
 public class Support
 {
@@ -24,17 +25,20 @@ public class Support
 	def static int top = 0
 	def static int left = 0
 	def frame
-	String propertyfile = './data/menu.properties'  // non-OS specific parameters for business issues
-	String pathfile = './data/path.properties'  // non-OS specific parameters for business issues
+
+	Tracer problem = new Tracer();
+	String propertyfile = '../menudata/menu.properties'  // non-OS specific parameters for business issues
+	String pathfile = '../menudata/path.properties'  // non-OS specific parameters for business issues
 	def config
 	def paths
-	def OSN
-	JTextPane jtp;			
+	def OSN 	// operating system name
+	JTextPane jtp;			// jtextpane to show
 	StyledDocument doc;
 	SimpleAttributeSet as0
 	SimpleAttributeSet as1
 	SimpleAttributeSet as2
 	SimpleAttributeSet as3
+	SimpleAttributeSet as4 
 	SimpleAttributeSet attr = null
 	//CommandSet comset = new CommandSet()	
 
@@ -60,26 +64,6 @@ public class Support
 	int at    			// points to zero/none or which builtin command
 	String co 			// temp. matcher field
 
-	def hex = [
-	0:'0',
-	1:'1',
-	2:'2',
-	3:'3',
-	4:'4',
-	5:'5',
-	6:'6',
-	7:'7',
-	8:'8',
-	9:'9',
-	10:'a',
-	11:'b',
-	12:'c',
-	13:'d',
-	14:'e',
-	15:'f'
-	] // end of hex 
-
-
 	// class constructor - loads configuration, get system environmental variables; gets hardware window size;
 	public Support()
 	{
@@ -101,11 +85,13 @@ public class Support
 		say("... Support() ready...$commandPrefix")
 	} // end of constructor
 
+
 	// return a handle to the config file
 	public getConfig()
 	{
 		return config
 	}
+
 
 	// return a handle to the name of the operating system name
 	public getOSN()
@@ -169,6 +155,7 @@ public class Support
     		result.append(replace);
     		s = e+pattern.length();
     	} // end of while
+
     	result.append(str.substring(s));
     	return result.toString();
     } // end of method
@@ -208,6 +195,7 @@ public class Support
 		return pwd 
 	} // end of get
 
+
 	// set current working directory
 	public setPWD(def newpwd)
 	{
@@ -221,7 +209,8 @@ public class Support
 		lookback=stackMax 
 	} // end of reset
 
-        // F9&UP arrow lookback thru commands
+
+    // F9&UP arrow lookback thru commands
 	public putStack(def entry)
 	{
 		stack << entry
@@ -238,6 +227,7 @@ public class Support
 		if (audit) {println "$text";} 
 	} // end of say
 
+
 	public static void say(String text, boolean f) 
 	{
 		if (audit) {print "$text";} 
@@ -253,26 +243,26 @@ public class Support
 		high = dim.height
 	} // end of getWindowSize
 
+
 	// method to place window at TOPLEFT,BOTTOMLEFT,TOPRIGHT,BOTTOMRIGHT,or CENTER by default
 	public moveWindow(String at)
 	{
 		Dimension f = frame.getSize();
+		left = 0
+		top = 0
+
 		//println "moveWindow($at) : w=${f.width} h=${f.height}"
 		switch(at)
 		{
 			case "TL" :
-				left = 0
-				top = 0
 				break
 
 			case "BL" :
-				left = 0
 				top = high - f.height
 				break
 
 			case "TR" :
 				left = wide - f.width
-				top = 0
 				break
 
 			case "BR" :
@@ -302,9 +292,13 @@ public class Support
 		if (ts<1) return cmd;
 
 		// at least one token available (ts>0), so examine it for evidence of builtin command
-		co = tokens[0].toLowerCase()			// co holds possible builtin command
+		// co holds possible builtin command
+		co = tokens[0].toLowerCase()			
+
 		int i = 0;
-		builtincommand.each		// match first token against each bic 
+
+		// match first token against each bic 
+		builtincommand.each		
 		{ bi -> 
 				i+=1; 
 				if (bi.equals(co)) 	// found builtin command where at points to that command
@@ -314,6 +308,7 @@ public class Support
 		}  // end of each
 
 		say("builtin command is $at with $ts parameters")
+
 		// if it was a builtin command - which one ?
 		switch (at)
 		{
@@ -322,26 +317,37 @@ public class Support
 				{
 						def tx = "This command requires a single filename parameter"
 						showDialog("GO Command Parameters",tx)
-						//appendText("> ${cmd}", as3);
 						appendText("${tx}", as2);
 						cmd=null
 				} // end of token count not equal 2: 'go' + <menu name>
+
 				else
 				{		// go fred	- load the menu 'fred' with it's options
-						def fn = tokens[1].trim()	// get the menu filename
-						if (!fn.toLowerCase().endsWith(".txt")) fn += ".txt";		// make sure it ends with .txt
+						// get the menu filename
+						def fn = tokens[1].trim()	
+
+						// make sure it ends with .txt
+						if (!fn.toLowerCase().endsWith(".txt")) fn += ".txt";		
 
 						def fi = new File(fn)	
-						if (!fi.exists())		// if menu file does not exists, see if a direct or relative path 
-						{				// was specified
-							def ch = fn.substring(0,1) // take first char. pointed to a diff path
+
+						// if menu file does not exists, see if a direct or relative path 
+						if (!fi.exists())		
+						{				
+							// was specified but not found
+							// take first char. pointed to a diff path
+							def ch = fn.substring(0,1) 
+
 							switch (ch)
 							{
 								case '/' : break;
 								case '.' : break;
-								default :  fn = "./data/" + fn; break; // if no path, add our known ./data as prefix
+
+								// if no path, add our known ./menudata as prefix
+								default :  fn =  config.menufoldername+"/" + fn; break; 
 							} // end of switch
 						} // end of if
+
 
 						def f1 = new File(fn)
 						cmd = (f1.exists()) ? "¤${fn}" : null 
@@ -351,11 +357,11 @@ public class Support
 						{
 							def tx = "Menu file not found for $fn"
 							showDialog("GO Command Parameters",tx)
-							appendText("${tx}", as2);
+							appendText("${tx}", as4);
 						} // end of if
 						else
 						{
-							appendText("return code 0", as1);
+							//appendText("Return code 0", as2);
 						} // end of else
 				} // end of else
 				break;
@@ -380,19 +386,25 @@ public class Support
 	// xlate command text with http:// or www. prefix
 	public resolveCommand(String co)
 	{
+		// add some trailing blanks so substring below does not fall over on short commands
 		String cmd = co.trim()+"     ";
 		int csize = cmd.size()
 
+		// if length of command is short, just return it without further ado.
 		if (csize < 2) return co;
 
+		// otherwise, split command into tokens
 		def tokens = cmd.split()
 
 		switch ( tokens[0].trim().toLowerCase() )
 		{
+			// if the apple command to run command to try to open this URL based on it's type
+			// known to mac's 
 			case "open" :	return cmd;
 							break;
 
-			case "cd" :		setPWD(tokens[1])
+			// change working directory so that following commands will have diff. pwd
+			case "cd" :		setPWD( tokens[1].trim() )
 							break;
 
 			case "pwd" :
@@ -406,73 +418,59 @@ public class Support
 			case "ls" :		return "command "+cmd.trim()
 							break;
 
+			// bash shell is called here
 			case "set" :	return "sh -c '${cmd.trim()}' "
 							break;
 
-			default :
-							break;
+			default : 		break;
 
-		}	// end of swith
-
-
-		// if it's a groovy or groovyc request then add & to spawn as a sub-task
-		if (cmd.substring(0,6).toLowerCase().equals("groovy")) return cmd +" & ";
+		}	// end of switch
 
 
-		// look for internet naming conventions, if so call the apple 'open ' prefix to run a browser with this dns name
+		// if it's a groovy or groovyc request then add trailing '&'' to spawn as a sub-task
+		//if (cmd.substring(0,6).toLowerCase().equals("groovy")) return cmd +" & ";
+
+
+		// look for internet naming conventions, 
+		// if so call the apple 'open ' prefix to run a browser with this dns name
 		if (cmd.substring(0,3).toLowerCase()=="www" ) 
 		{
 				cmd = getCommandPrefix() + "http://" + cmd
-				//println " - no, changed to $cmd"
 				return cmd
 		} // end of if
 
+		// either http or https prefix, then run as apple command
 		if (cmd.substring(0,4).toLowerCase()=="http" ) 
 		{
 				cmd = getCommandPrefix() + cmd
-				//println " - no, changed to $cmd"
 				return cmd
 		} // end of if
 
-		if (cmd.substring(0,5).toLowerCase()=="https" ) 
-		{
-				cmd = getCommandPrefix() + cmd
-				//println " - no, changed to $cmd"
-				return cmd
-		} // end of if
 
 		// call 'open ' to read any pdf files
 		if (cmd.toLowerCase().endsWith("pdf") ) 
 		{
 				cmd = getCommandPrefix() + cmd
-				//println " - no, changed to $cmd"
 		} // end of if
 
-		// could add more choices here to handle other senarios or file types like images, etc.
 
+		// could add more choices here to handle other senarios or file types like images, etc.
 		return cmd
+
 	} // end of resolveCommand
 
 
-	// method to execute immediate command based on number of this menu option; not used since menu options come from main.txt file now
+	// method to execute immediate command based on number of this menu option; 
+	// not used since menu options come from main.txt file now
 	//public void runCommand(int option) 
 	//{
 	//	runCommand(config.menus.commands[option])
 	//} // end of runCommand using menu number
 
-	def decode(b)
-	{
-	    def va = (b<0) ? b + 256 : b
-	    int ud = (va<16) ? 0 : va / 16
-	    int ld = va - (ud * 16)
-	    def r = hex[ud]+hex[ld]
-	    return r
-	} // end of decode
-
+	// knock off first 5 char.s
 	def fix(x)
 	{
 		def s = x.substring(5)
-		return s
 	} // end of fix
 
 
@@ -484,60 +482,65 @@ public class Support
 		int j = jtp.getText().length() + 3; 
 		def proc4
 
-		def sbmjob = (command.endsWith("&")) ? true : false
+		def sbmjob = (command.trim().endsWith("&")) ? true : false
 
 		// do the business wrapped with try/catch block
 		try
 		{ 	
-			def initialSize = 16384
-			def outStream = new ByteArrayOutputStream(initialSize)
-			def errStream = new ByteArrayOutputStream(initialSize)
-			//def out = new StringBuilder()
-			//def err = new StringBuilder()
-			//Appendable outStream;
-			//Appendable errStream;
-
 			// since * is a shell expansion feature, you cannot pass 'ls menus*' as a command; try sh -c 'ls *.groovy' 
-			proc4 = command.execute(null, new File(pwd))                     // Call *execute* on the string
-			//proc4 = command.execute()
-
+			// Call *execute* on the string
+			//WriteOutput(4,"Command=","""${command}""");			
+			proc4 = command.execute(null, new File(pwd))                     
 
 			// bailout if command ends with & which forces process to background
 			if (sbmjob) 
 			{   
 				say " - not waiting for process to finish"
+				WriteOutput(4,"SBMJOB Ended","");			
 				return;
 			} // end of if	
 
-
+			def initialSize = 16384
+			def outStream = new ByteArrayOutputStream(initialSize)
+			def errStream = new ByteArrayOutputStream(initialSize)
 			proc4.consumeProcessOutput(outStream, errStream)
-			//proc4.waitFor()
+
 
 			// extra try-catch pair for process execution
 			try {
 				proc4.waitForProcessOutput(outStream, errStream)
-				//proc4.waitForOrKill(5000)                     // Wait for the command to finish
 			}	// end of try
+
 			catch (Exception e)
 			{
 				say("timeout: ${e.getMessage()}");
+				WriteOutput(2,"Wait Timeout","${e.getMessage()}");				
 			} // end of catch
+			finally
+			{
+				appendText("Wait For Process to Complete", as0);
+				//WriteOutput(9,"Wait For Process to Complete","");				
+			}
 
  
-			// Obtain status and output
+			// Obtain event status and output
 			int ev = proc4.exitValue()
 			def et = errStream 		// proc4.err.text.trim()
 			def so = outStream 		// proc4.in.text.trim()
-			attr = null
+			attr = as0
 
 			// crude attempt to identify failed task requests, and if so, adjust text color display with text
-			def pattern = ~"^.*(error).*"	// look for pattern evidence of error while running this command; crude and often misses it
+			// look for pattern evidence of error while running this command; crude and often misses it
+			def pattern = ~"^.*(error).*"	
 			if (ev==0) attr = as0		// set the text color depending on exit value of command
-			if (ev==1) attr = as2
+			if (ev==1) attr = as1
 			if (ev==2) attr = as2
+			if (ev==3) attr = as3
+			if (ev==4) attr = as4
+
 
 			// audit trail print if audit set
-			say("return code: ${ ev}")	// auditlog reporting
+			say("return Code: ${ ev}")	// auditlog reporting
 			say("stderr: ${et}")
 			say("stdout: ${so}") 		// *out* from the external program is *in* for groovy
 
@@ -563,11 +566,19 @@ public class Support
 			jtp.setEditable(true)
 			jtp.grabFocus();
 			appendText("${e.getMessage()}", as2)
-			displayStackTraceInformation(e,false)
+
+			def issues = problem.displayStackTraceInformation(e,false)
+			appendText(issues+":\n", as1);
+
 			int j4 = jtp.getText().length(); 
 			jtp.setCaretPosition(j4);
 			jtp.setEditable(false)
 		} // end of catch
+
+		finally
+		{
+			appendText("Execute Ended", as4);
+		}	// end of finally
 
 
 		// This did not work as there was no wait for the process to complete, so need a blocking method
@@ -585,36 +596,53 @@ public class Support
 		// set the text color depending on exit value of command
 		switch(ev)
 		{
-			case 0 : attr = as0;
-				break;
+			case 9:
+			case 0 : 	attr = as0;	// white
+						break;
 
-			case 1 : attr = as2
-				break;
+			case 1 : 	attr = as1	// yellow
+						break;
 
-			case 2 : attr = as2
-				break;
+			case 2 : 	attr = as2	// red
+						break;
 
-			default: attr = null;
+			case 3 : 	attr = as3	// green
+						break;
+
+			case 4 : 	attr = as4	// blue
+						break;
+
+
+			default: 	attr = null;
 		} // end of switch
+
 
 		// write output to jtextpane
 		// clearText() - could also use setText(null)
+		// need editable to be true while updating jtextpane with focus
 		jtp.setEditable(true)
 		jtp.grabFocus();
-		appendText("return code: ${ev}", as1);
+
+		if (ev<9) { appendText("Return Code: ${ev}", as1); }
+
+		// then include any error text or standard output
 		if (et.size()>0) appendText("${et}", attr);
 		if (so.size()>0) appendText("${so}", attr);
+
+		// figure where to position text cursor, then make it not editable
 		int j = jtp.getText().length();
 		jtp.setCaretPosition(j);
 		jtp.setEditable(false)
 	} // end of writeOutput
 
 
+	// ---------------------------
 	// set up frame title
 	public String getFrameTitle()
 	{
 		return getConfig().menutitle.trim() + " " + framefixedtitle
 	} // end of label 1
+
 
 	// set up frame title
 	public String getFrameTitle(String t)
@@ -626,6 +654,7 @@ public class Support
 	// added this new method to support the new HeaderSupport class which should build a panel of	
 	// 3 columns of system menu item names
 	// construct a title panel with labels 
+	
 	public JPanel getHeaders()
 	{	
 		def p = new JPanel()
@@ -642,14 +671,7 @@ public class Support
 		jtp = new JTextPane();
 		jtp.setPreferredSize(new Dimension(780, 410)) 
 		jtp.setMaximumSize(new Dimension(780, 510))
-
-
-        Font font = new Font("Monospaced", Font.PLAIN, 10);
-        jtp.setFont(font);
-        //jtp.setForeground(Color.white);             
-        //jtp.setBackground(Color.black);  
-
-		//jtp.setFont(new Font("Monospaced", Font.PLAIN, 12));
+        jtp.setFont(mono);
 		jtp.setForeground(Color.green);
 		jtp.setBackground(Color.black);
 		jtp.setEditable(false);
@@ -657,11 +679,12 @@ public class Support
 		Border redline = new LineBorder(Color.cyan,1,true);
 		jtp.setBorder(null)
 
+		//StyleConstants.setfBold(as0, true);
+		//StyleConstants.setItalic(as0, true);
+
 		// zero return code
 		as0 = new SimpleAttributeSet();
 		StyleConstants.setForeground(as0, Color.white);
-		//StyleConstants.setfBold(as0, true);
-		//StyleConstants.setItalic(as0, true);
 
 		// normal response text
 		as1 = new SimpleAttributeSet();
@@ -675,6 +698,10 @@ public class Support
 		// echo terminal command
 		as3 = new SimpleAttributeSet();
 		StyleConstants.setForeground(as3, Color.green);
+
+		// echo terminal command
+		as4 = new SimpleAttributeSet();
+		StyleConstants.setForeground(as4, Color.cyan);
 
 		return jtp;
 	} // end of getText
@@ -696,17 +723,6 @@ public class Support
 		try 
 		{
 			doc.insertString(doc.getLength(), sb, attributes);
-		}
-		catch (BadLocationException e) {}
-	} // end of appendText
-
-
-	private void appendText(String s, boolean f) 
-	{
-		doc = jtp.getDocument();
-		try 
-		{
-			doc.insertString(doc.getLength(), s, null);
 		}
 		catch (BadLocationException e) {}
 	} // end of appendText
@@ -735,101 +751,54 @@ public class Support
 	} // end of nano compute
 
 
-
-	// ====================================================
-	// method to print failure stack trace in a nice formt
-	public boolean displayStackTraceInformation (Throwable ex, boolean displayAll)
-    {
-    	if (null == ex)
-    	{
-    		appendText("Null stack trace reference! Bailing...", as0);
-    		return false;
-    	}
-    	appendText("The stack according to printStackTrace():\n", as0);
-    	//ex.printStackTrace();
-    	//say ("");
-    	StackTraceElement[] stackElements = ex.getStackTrace();
-    	if (displayAll)
-    	{
-    		appendText("The " + stackElements.length +
-                            " element" +
-                            ((stackElements.length == 1) ? "": "s") +
-                            " of the stack trace:\n", as0);
-           }
-           else
-           {
-           	       appendText("The top element of a " +
-                            stackElements.length +
-                            " element stack trace:\n", as0);
-           }
-    
-           for (int lcv = 0; lcv < stackElements.length; lcv++)
-           {
-           	       appendText("Filename: " +
-                            stackElements[lcv].getFileName(), as0);
-                  appendText("Line number: " +
-                            stackElements[lcv].getLineNumber(), as0);
-                  String className = stackElements[lcv].getClassName();
-                  String packageName = extractPackageName (className);
-                  String simpleClassName = extractSimpleClassName (className);
-                  say ("Package name: " +  ("".equals (packageName) ?  "[default package]" : packageName));
-                  say ("Full class name: " + className);
-                  say ("Simple class name: " + simpleClassName);
-                  //say ("Unmunged class name: " +  unmungeSimpleClassName (simpleClassName));
-                  say ("Direct class name: " +  extractDirectClassName (simpleClassName));
-                  say ("Method name: " + stackElements[lcv].getMethodName());
-                  say ("Native method?: " +   stackElements[lcv].isNativeMethod());
-                  say ("toString(): " +  stackElements[lcv].toString());
-                  say ("");
-                  if (!displayAll)
-                  	      return true;
-           		}
-           		say ("");
-           		return true;
-    }       // End of displayStackTraceInformation().
-
-    // discover PackageName
-    public static String extractPackageName (String fullClassName)
-    {
-    	if ((null == fullClassName) || ("".equals (fullClassName)))
-    		return "";
-    	int lastDot = fullClassName.lastIndexOf ('.');
-    	if (0 >= lastDot)
-    		return "";
-    
-    	return fullClassName.substring (0, lastDot);
-    } // end of extractPackageName
-
-    // discover ClassName
-    public static String extractSimpleClassName (String fullClassName)
-    {
-    	if ((null == fullClassName) || ("".equals (fullClassName)))
-    		return "";
-    	int lastDot = fullClassName.lastIndexOf ('.');
-    	if (0 > lastDot)
-    		return fullClassName;
-    
-    	return fullClassName.substring (++lastDot);
-    } // end of extractSimpleClassName
-
-    // discover ClassName
-    public static String extractDirectClassName (String simpleClassName)
-    {
-    	if ((null == simpleClassName) || ("".equals (simpleClassName)))
-    		return "";
-    	int lastSign = simpleClassName.lastIndexOf ('$');
-    	if (0 > lastSign)
-    		return simpleClassName;
-    	return simpleClassName.substring (++lastSign);
-    } // end of extractSimpleClassName
-
-
     // ============================
 	// test harness for this class
 	public static void main(String[] args)
 	{	
 		println "... started"
 		Support su = new Support()
+		GridBagConstraints c = new GridBagConstraints();
+		def ps = new PanelSupport()
+		su.jtp = su.getTextPane()
+		def cmd = "ls -al"
+		su.runCommand(cmd)
+
+
+		JFrame.setDefaultLookAndFeelDecorated(true);
+		def swing = new SwingBuilder()
+		def frame = swing.frame(title:"Support Test Harness", background:Color.yellow, pack:false, show:true, defaultCloseOperation:JFrame.EXIT_ON_CLOSE,size:[900, 700]) 
+		{   
+			vbox(background:Color.GREEN)
+			{
+				   panel(layout:new GridBagLayout(), background:Color.BLACK)
+				   {
+						c.fill = GridBagConstraints.BOTH; // HORIZONTAL
+						c.weighty = 0.0;
+						c.weightx = 0.0;
+
+						c.gridy = 0; 
+						c.gridx = 0;
+
+						// layout headings
+						hbox(constraints: c, id:'hd' ) { widget(ps.getPanel()) }
+					}	// end of panel
+
+				   panel(layout:new GridBagLayout(), background:Color.BLACK)
+				   {
+						c.fill = GridBagConstraints.BOTH; // HORIZONTAL
+						c.weighty = 0.1;
+						c.weightx = 0.0;
+
+						c.gridy = 0; 
+						c.gridx = 0;
+
+						hbox(constraints: c, id:'hp' ) { widget(su.jtp) }
+					}	// end of panel
+
+							}	// end of vbox
+
+		}	// end of frame
+
 		println "... ended"
 	} // end of main
 

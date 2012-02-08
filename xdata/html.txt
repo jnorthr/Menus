@@ -1,0 +1,26 @@
+H T M L 5   M e n u:=*MENUTITLE
+Stats:=command set
+HTML5 Bioler Plate Builder:=open http://html5boilerplate.com/
+Use Firebug in Firefox to Quick Dev:= open http://encosia.com/updated-see-how-i-used-firebug-to-learn-jquery/
+GitHub - How Does It Work?:=open http://net.tutsplus.com/tutorials/other/getting-the-hang-of-github/
+GitHub Home:=open https://github.com/
+Intro To GitHub:=open http://net.tutsplus.com/tutorials/other/easy-version-control-with-git/
+Git Explained:=open http://tom.preston-werner.com/2009/05/19/the-git-parable.html
+How Does Git Remote Work?:=open http://gitref.org/remotes/#remote
+Jnorthr Menus on GitHub:=open https://github.com/jnorthr/Menus
+Mac Help on GitHub:=open http://mac.github.com/help
+Nice IBM Overview Part 1:=open http://www.ibm.com/developerworks/web/library/wa-html5fundamentals/index.html
+Part Two:=open http://www.ibm.com/developerworks/web/library/wa-html5fundamentals2/index.html
+Part Three - Geolocation:=open http://www.ibm.com/developerworks/web/library/wa-html5fundamentals3/index.html
+Part 4 - Canvas:=open http://www.ibm.com/developerworks/web/library/wa-html5fundamentals4/index.html
+Fight DIV-ites w/960.GS:=http://www.webdesignerdepot.com/2010/03/fight-div-itis-and-class-itis-with-the-960-grid-system/
+960.GS:=http://960.gs/
+#green;dummy text:=
+:=dummy commands
+just some text
+:=
+
+
+
+
+

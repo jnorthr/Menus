@@ -158,7 +158,7 @@ public static void main(String[] args)
     
     ts.writeText("Start of leanne.txt ----------------------------")
     
-    def f = new File("./data/leanne.txt")   // get handle for the menu text file
+    def f = new File("../menudata/leanne.txt")   // get handle for the menu text file
         f.eachLine         // walk thru each line of menu file ignoring comment lines starting with //
         {    aline -> 
                     cm = new ColorManager(aline);

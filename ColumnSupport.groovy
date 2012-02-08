@@ -11,7 +11,7 @@ import javax.swing.border.LineBorder
 public class ColumnSupport
 {
 	// holds decoded menu items filled from static loadMenu method
-	def static audit = true		// true will print debug text
+	def static audit = false		// true will print debug text
 	def static menuLines = 0		// how many visible lines appear in the columns
 	def static menuOptions = 0		// how many actual menu options appear in the columns which maybe less than menuLines if titles only
 	def static menuTitle = []
@@ -158,7 +158,9 @@ public class ColumnSupport
     // the remainder into the middle and right columns.
     //
 	// cs is array of menu columns, 
+
 	// mifilename is the name of the menu .txt file 
+
 	// showCommandText is a boolean to show the actual command rather 
 	// than the menu text ( function key F17 used as toggle )
 	//
@@ -190,59 +192,6 @@ public class ColumnSupport
 			// if not a comment and line has := then it can be used as a menu entry, so split it in two parts.
 			if (useme && aline =~ /^.*\:=.*/) 		// The signature for a menu option is text:=command
 			{
-				// static method to reset internal variables
-				ColumnSupport.cleanup(notCleared, mifilename)
-
-				// break menu entry into 2 parts: 1) option text description 2) option command
-				words = aline.split(/\:=/)	
-				int wc = words.size()		// how many tokens ? Normally two if := 
-
-				def word1 = ""
-				def word2 = ""
-				// set true when the command pair form a valid command
-				boolean flag = false	
-
-				// set to zero unless this is an internal menu feature, a built-in command
-				int bic = 0		
-
-				// word count governs how it's handled
-				switch (wc)		
-				{
-					// typical text:=command
-					case 2:		
-						flag = true
-						word1=words[0].trim()
-						word2=words[1].trim()
-						if ( word1.size()<1 )
-						{
-							flag = false
-						} // end of if
-
-						// was there any command text ?
-						if ( word2.size() >0 )
-						{	
-							// figure out built-in commands
-							say " - <"+word2+">"
-							if (word2.toLowerCase().equals("*menutitle")) {bic = 1;}
-							if (word2.toLowerCase().equals("*red")) {bic = 2;}
-							say " - bic set to $bic";
-						} // end of if
-						break;
-
-					// a word count of one means line format was 'xxx:='  without text after :=
-					// was this for menu text only displays ?
-					case 1:
-						flag = true
-						bic = 3
-						word1=words[0].trim(); //say "word0=<$word1>"
-						break;
-
-					default:
-						say "unknown wc=$wc for line <${aline}>"
-						bic = 99
-						break;
-				} // end of switch
-
 				// -------------------------------
 				// this is a valid pair, so store
 				if (flag)
@@ -485,7 +434,7 @@ public class ColumnSupport
 
 		cs << new ColumnSupport()
 		cs << new ColumnSupport()
-		ColumnSupport.loadMenu(cs, "./data/stylesheets.txt", true)      // ?????????????????????????????????????????????????????
+		ColumnSupport.loadMenu(cs, "../menudata/stylesheets.txt", true)      
 
 		// report commands found
 		say "... Commands are :"

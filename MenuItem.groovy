@@ -25,7 +25,7 @@ public class MenuItem
 
 	// the following elements have values if this menu item has a 'go' command to call other menus
 	private String dialogTitle	// shows in title of dialog if BIC number says so
-	private String menuFileName	// when a BIC of 'go' says load and display another menu, this is the file name to load; typically like ./data/menu.txt
+	private String menuFileName	// when a BIC of 'go' says load and display another menu, this is the file name to load; typically like ../menudata/menu.txt
     private boolean menuFileExists // true if go menufile confirmed to exist                   
 
     TextSupport ts;
@@ -65,9 +65,9 @@ public class MenuItem
 	public MenuItem(String text)
 	{
 		this();
-		def mt = text.split(":=");
+		def mt = text.split(":="); println "mt.size()="+mt.size();
 		menuText = mt[0].trim();
-		menuCommand = mt[1].trim();
+		menuCommand = (mt.size() > 1 ) ? mt[1].trim() : "";
 
 		// text may have a color setting
 		findColorString(menuText)
@@ -253,7 +253,7 @@ public class MenuItem
         } // end of if
         
         // try alternate look into ./data subfolder for this menu file
-        def fn2 = "./data/" + fn;
+        def fn2 = "../menudata/" + fn;
         if (chkobj(fn2))
         {
             return fn2;
@@ -340,6 +340,7 @@ public class MenuItem
 		//return tx+tx2
 	}	// end of method
 
+
 	// -----------------------------------------------------
 	// test harness for this class
 	public static void main(String[] args)
@@ -367,6 +368,34 @@ public class MenuItem
 		ma << mi
 		println mi;
 		println "---"
+
+		mi = new MenuItem("hi kids; no colon-equals")
+		ma << mi
+		println mi;
+		println "---"
+
+		mi = new MenuItem(" // notes here")
+		ma << mi
+		println mi;
+		println "---"
+
+		mi = new MenuItem("hi:=")
+		ma << mi
+		println mi;
+		println "---"
+
+		mi = new MenuItem(":=kids")
+		ma << mi
+		println mi;
+		println "---"
+
+		mi = new MenuItem(":=")
+		ma << mi
+		println mi;
+		println "---"
+
+
+
 
 		mi = new MenuItem("hi","kids")
 		ma << mi
@@ -426,11 +455,11 @@ public class MenuItem
         println menu;
         ma << menu
                 
-        MenuItem mi5 = new MenuItem(5,7,"#ccc",true,"Display Jim Panel","go ./data/jim.txt");
+        MenuItem mi5 = new MenuItem(5,7,"#ccc",true,"Display Jim Panel","go ../menudata/jim.txt");
         println mi5;
         ma << mi5;        
 
-        MenuItem menu2 = new MenuItem("red;Display Max Menu","go ./data/max.txt");
+        MenuItem menu2 = new MenuItem("red;Display Max Menu","go ../menudata/max.txt");
         println menu2;
         ma << menu2
         

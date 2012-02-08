@@ -1,0 +1,17 @@
+Derby Links:=*MENUTITLE
+Apache Derby Database - Tutorial:=open http://www.vogella.de/articles/ApacheDerby/article.html
+Derby Dev Guide !!!:=open http://db.apache.org/derby/docs/10.8/devguide/
+JDBC 4.0 &4.1 :=open http://docs.oracle.com/javadb/10.8.1.2/ref/rrefjdbc4_0summary.html
+SQL DataSource Datasets:=open http://docs.oracle.com/javase/tutorial/jdbc/basics/sqldatasources.html
+JDBC Connection Pooling Best Practices:=open http://www.javaranch.com/journal/200601/JDBCConnectionPooling.html
+Derby ClientDataSource40 API:=open http://db.apache.org/derby/javadoc/publishedapi/jdbc4/org/apache/derby/jdbc/ClientDataSource40.html
+JNDI Tutorials:=open http://docs.oracle.com/javase/jndi/tutorial/beyond/env/source.html
+Tomcat JNDI Tut:=open http://tomcat.apache.org/tomcat-5.5-doc/jndi-datasource-examples-howto.html
+Getting Started with derby:=open http://www.stuartellis.eu/articles/derby-javadb/#derby-service
+Locating Resources Using JNDI:=open http://www.developer.com/java/ejb/article.php/10931_2215571_4/Locating-Resources-Using-JNDI-Java-Naming-and-Directory-Interface.htm
+Java Client Server App w/ EJB3 & Glassfish3:=open http://edwin.baculsoft.com/2010/09/a-simple-java-client-server-application-using-ejb3-and-glassfish3/
+More JNDI Articles:=open http://java.sun.com/developer/technicalArticles/Programming/jndi/index.html
+Derby Connection with DataSource Objects:=open http://www.herongyang.com/JDBC/Derby-JDBC-DataSource-Connection.html
+Derby Hibernate:=open http://wiki.apache.org/db-derby/HibernateHelp
+Yaml Wiki:=open http://en.wikipedia.org/wiki/YAML
+JYaml on Sourceforge:=open http://jyaml.sourceforge.net/

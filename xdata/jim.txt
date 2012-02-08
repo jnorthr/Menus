@@ -1,0 +1,19 @@
+J i m ' s   M e n u Options:=*MENUTITLE
+Groovy Tools :=*RED
+groovy version :=groovy -v
+$GROOVY_HOME/bin/groovy -v:=$GROOVY_HOME/bin/groovy -v
+Java Tools:=*RED
+java -version:=java -version
+javac version:=javac -version
+javac -cp . %1:=javac -cp .
+// bash builtin commands need a further directive to allow the builtin to run successfully 
+export CLASSPATH:=command export CLASSPATH=.:/Developer/Development/personal/groovy/groovy-1.6.4/embeddable/groovy-all-1.6.4.jar:$CLASSPATH
+see CLASSPATH:=echo $CLASSPATH
+open:=open FairChild.pdf
+:=this command would never be seen as no text before token
+jim and fred:=*RED
+Run Site Ajax1 test:=open file:///Users/jim/Sites/jqajax1.html
+url pattern matches multiple servlets:=open http://stackoverflow.com/questions/7938138/what-if-url-pattern-matches-multiple-servlets
+Formalizer Test:=open file:///Volumes/Data/dev/formalize/index.html
+URL mapping for static content in web services:=open http://www.kuligowski.pl/java/rest-style-urls-and-url-mapping-for-static-content-apache-tomcat,5 
+Online JSON Validator:=open http://jsonlint.com/

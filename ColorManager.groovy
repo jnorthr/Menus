@@ -313,11 +313,11 @@ public class ColorManager
 		ColorManager mf = new ColorManager("max2.txt");
 		println mf;
 
-		mf = new ColorManager("./data/jim.txt");
+		mf = new ColorManager("../menudata/jim.txt");
 		println mf;
 
 
-		mf = new ColorManager("./data/jim.txt;");
+		mf = new ColorManager("../menudata/jim.txt;");
 		println mf;
 
 		mf = new ColorManager("0x336699;Declare normal color signature 0x336699; with semicolon.");

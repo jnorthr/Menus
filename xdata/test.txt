@@ -1,0 +1,11 @@
+Test Menu:=*MENUTITLE
+See Photo of An Apple:=open ./data/apple.jpg
+See a PDF:=open ./data/FairChild.pdf
+Play Music:=open ./data/MoolaMantra.mp3
+To Do List:=open ./data/todo.html
+Edit ToDo List:=open -a TextEdit.app /Volumes/Data/dev/groovy/Menus/data/todo.html
+Edit This Menu:=open ./data/test.txt
+Edit Main Menu Help File(html):=open -a TextEdit.app /Volumes/Data/dev/groovy/Menus/data/help.html
+Play Heroku CD:=cd /Volumes/Data/dev/play/play-1.2.4/samples-and-tests/heroku/
+Play Heroku:=play run 
+
