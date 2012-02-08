@@ -1,4 +1,0 @@
-#!/bin/bash 
-# Name: test_script then run the following from a command line
-# source test_script 
-export CLASSPATH=.:/Developer/Development/personal/groovy/groovy-1.6.4/embeddable/groovy-all-1.6.4.jar:$CLASSPATH

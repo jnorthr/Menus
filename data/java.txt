@@ -1,4 +1,0 @@
-J a v a   M e n u:=*MENUTITLE
-Create URL in Java:=open http://download.oracle.com/javase/tutorial/networking/urls/creatingUrls.html
-Java Class Desktop:=open http://download.oracle.com/javase/6/docs/api/java/awt/Desktop.html#browse%28java.net.URI%29
-Building a Java Desktop Database Application:=open http://netbeans.org/kb/docs/java/gui-db.html

@@ -1,5 +1,0 @@
-Forms:=*MENUTITLE
-Formalize Test in /dev/formalize/index.html:=open file:///Volumes/Data/dev/formalize/index.html
-Formalize.me:=open http://formalize.me/
-Javascript Form Validation:=open http://www.tizag.com/javascriptT/javascriptform.php
-
