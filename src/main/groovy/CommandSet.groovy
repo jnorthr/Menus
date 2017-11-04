@@ -11,7 +11,7 @@ public class CommandSet
     def cmd = "command set"	// mac os command to see environmental variables
     def txt
     def map =[:]
-    String propertyfile = '../menudata/menu.properties'  		// non-OS specific parameters for business issues
+    String propertyfile = './build/resources/main/menu.properties'  		// non-OS specific parameters for business issues
     def config
 
     public CommandSet()

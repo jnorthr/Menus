@@ -8,6 +8,18 @@
 
 // Apply the groovy plugin to add support for Groovy
 apply plugin: 'groovy'
+apply plugin:'application'
+
+def compatibilityVersion = 1.6
+sourceCompatibility = compatibilityVersion
+targetCompatibility = compatibilityVersion
+
+defaultTasks 'clean', 'build', 'groovydoc', 'startScripts', 'fatJar', 'distTar', 'distZip', 'run' // 'installApp',  missing from 3.5 application plugin
+
+// project version
+version = "1.0-${new Date().format('yyyyMMdd')}"
+
+mainClassName = "com.jnorthr.tools.Splasher";
 
 // In this section you declare where to find the dependencies of your project
 repositories {
@@ -18,13 +30,25 @@ repositories {
 
 dependencies {
     // Use the latest Groovy version for building this library
-    compile 'org.codehaus.groovy:groovy-all:2.4.11'
+    compile 'org.codehaus.groovy:groovy-all:2.4.12'
 
     // Use the awesome Spock testing and specification framework
     testCompile 'org.spockframework:spock-core:1.1-groovy-2.4'
     testCompile 'junit:junit:4.12'
 }
 
+//create a single Jar with all dependencies
+task fatJar(type: Jar) {
+	manifest {
+        attributes 'Implementation-Title': 'Sample IBM AS/400 Menu System',  
+        	'Implementation-Version': version,
+        	'Main-Class': 'Splasher'
+    }
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
 task wrapper(type: Wrapper) {
-    gradleVersion = "3.5"
+    gradleVersion = "4.1"
 }

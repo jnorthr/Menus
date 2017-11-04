@@ -172,7 +172,7 @@ public class ColumnSupport
 		def words
 		int ix2 = 0
 		say "opening menu file $mifilename"
-
+def flag=true;
 		// how many menu items ?
 		f.eachLine 		// walk thru each line of menu file ignoring comment lines starting with //
 		{	aline ->
@@ -434,7 +434,7 @@ public class ColumnSupport
 
 		cs << new ColumnSupport()
 		cs << new ColumnSupport()
-		ColumnSupport.loadMenu(cs, "../menudata/stylesheets.txt", true)      
+		ColumnSupport.loadMenu(cs, "./build/resources/main/stylesheets.txt", true)      
 
 		// report commands found
 		say "... Commands are :"

@@ -1,3 +1,5 @@
+package com.jnorthr.tools;
+
 import java.awt.GridBagConstraints.*
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -24,6 +26,8 @@ import java.awt.event.KeyListener;
 import javax.swing.text.*
 import java.awt.Graphics
 import java.awt.event.WindowEvent;
+import com.jnorthr.tools.support.BottomBorder;
+import com.jnorthr.tools.support.HelpWindow;
 
 
 // class wrapper uses keystroke listener logic
@@ -31,7 +35,7 @@ class Menus implements KeyListener
 {
 
 	def static audit = false
-	//String propertyfile = '../menudata/menu.properties'  		// non-OS specific parameters for business issues
+	//String propertyfile = './build/resources/main/menu.properties'  		// non-OS specific parameters for business issues
 	def support
 	java.util.List<ColumnSupport> cs = []
 
@@ -41,8 +45,8 @@ class Menus implements KeyListener
 	def static frame	
 	def frametitle 
 	JTextPane jtp;
-	def helpfilename = "../menudata/help.html"
-	def todofilename = "../menudata/todo.html"
+	def helpfilename = "./build/resources/main/help.html"
+	def todofilename = "./build/resources/main/todo.html"
 	Border cyanline = new LineBorder(Color.red,1);
 	def mono = new Font("Monospaced", Font.PLAIN, 10)
 
@@ -80,7 +84,7 @@ class Menus implements KeyListener
 				if (f)
 				{
 					//println "F15 key pressed"
-					String menu = "../menudata/.menulist.txt"; 
+					String menu = "./build/resources/main/menulist.txt"; 
 					ColumnSupport.loadMenu(cs,menu)    
 					frame.setTitle(ColumnSupport.getFrameTitle())
 					support.resetStack()
@@ -634,7 +638,7 @@ class Menus implements KeyListener
 		//println "... started"
 		setAudit()
 		Menus ivs = new Menus()
-		ivs.getPanel("../menudata/main.txt")
+		ivs.getPanel("./build/resources/main/main.txt")
 		ivs.frame.show()
 		//ivs.say("... done ===")
 

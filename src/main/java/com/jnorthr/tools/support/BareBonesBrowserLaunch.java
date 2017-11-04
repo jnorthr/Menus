@@ -1,4 +1,5 @@
-//package com.centerkey.utils;
+package com.jnorthr.tools.support;
+//package com.jnorthr.tools.support.BareBonesBrowserLaunch;
 
 import javax.swing.JOptionPane;
 import java.util.Arrays;

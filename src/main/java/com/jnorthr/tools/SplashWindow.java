@@ -1,3 +1,5 @@
+package com.jnorthr.tools;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.net.*;
@@ -139,7 +141,7 @@ public class SplashWindow extends Window {
      * Open's a splash window using the specified image.
      * @param imageURL The url of the splash image.
      */
-    public static void splash(URL imageURL) 
+    public static void splashU(URL imageURL) 
     {
         if (imageURL != null) 
 	{
@@ -166,6 +168,8 @@ public class SplashWindow extends Window {
      */
     public static void invokeMain(String className, String[] args) 
     {
+    	System.out.println("... invokeMain starting "+className);
+
         try 
 	{
             Class.forName(className)

@@ -1,3 +1,5 @@
+package com.jnorthr.tools;
+
 // export CLASSPATH=.:/Volumes/Data/dev/groovy/groovy-2.0.0/embeddable/groovy-all-2.0.0.jar:$CLASSPATH
 // RedApple with groovy 1.8 installed:
 // export CLASSPATH=.:/Volumes/Data/dev/groovy/groovy-2.0.0/lib/groovy-2.0.0.jar:$CLASSPATH

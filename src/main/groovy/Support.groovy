@@ -27,8 +27,8 @@ public class Support
 	def frame
 
 	Tracer problem = new Tracer();
-	String propertyfile = '../menudata/menu.properties'  // non-OS specific parameters for business issues
-	String pathfile = '../menudata/path.properties'  // non-OS specific parameters for business issues
+	String propertyfile = './build/resources/main/menu.properties'  // non-OS specific parameters for business issues
+	String pathfile = './build/resources/main/path.properties'  // non-OS specific parameters for business issues
 	def config
 	def paths
 	def OSN 	// operating system name

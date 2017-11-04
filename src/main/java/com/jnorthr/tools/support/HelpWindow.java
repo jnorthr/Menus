@@ -1,3 +1,4 @@
+package com.jnorthr.tools.support;
 
 /**
 * This class creates a frame with a JEditorPane for loading HTML
@@ -10,7 +11,7 @@ import java.net.*;
 import java.awt.event.*;
 import java.awt.*;
 import java.awt.Desktop;
-
+import com.jnorthr.tools.support.BareBonesBrowserLaunch;
 public class HelpWindow extends JFrame implements ActionListener{
     private final int WIDTH = 640;
     private final int HEIGHT = 400;
